@@ -91,7 +91,7 @@ class Application extends React.Component {
         }
 
         return (<div className={ backgroundClass }>
-            <NavBar title='The Iron Throne' />
+            <NavBar title='SK The Iron Throne' />
             <div className='wrapper'>
                 <div className='container content'>
                     <ErrorBoundary navigate={ this.props.navigate } errorPath={ this.props.path } message={ 'We\'re sorry - something\'s gone wrong.' }>

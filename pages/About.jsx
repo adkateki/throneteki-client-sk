@@ -8,10 +8,10 @@ class About extends React.Component {
         return (
             <div className='col-xs-12 full-height'>
                 <Panel title='About The Iron Throne - Help and information'>
-                    <a className='btn btn-danger btn-lg pull-right' target='_blank' href='https://github.com/cryogen/throneteki/issues'>Report Problems</a>
                     <h3>What is this?</h3>
 
-                    <p>This site was setup to allow you to play A Game Of Thrones 2.0, an LCG from Fantasy Flight Games (FFG) in your browser.</p>
+                    <p>A <a target='_blank' href='https://theironthrone.net'>The Iron Throne</a> instance with South Korean meta designs available and implemented to play in the browser.</p>
+                    <p> This site is not maintained by the original The Iron Throne team, and it is not meant to substitute the original site.</p>
 
                     <h3>That's pretty cool!  But how does any of this work?</h3>
                     <p>Head on over to the <Link href='/how-to-play'>How To Play guide</Link> for a thorough explanation.</p>
@@ -33,14 +33,11 @@ class About extends React.Component {
                     <p>Raven icon by Bluetip Design from <a href='https://thenounproject.com/term/raven/683810/'>the Noun Project</a></p>
 
                     <h3>Can I help?</h3>
-                    <p>Sure!  The project is all written in Javascript.  The server is node.js and the client is React.js.  The source code can be found in the&nbsp;
-                        <a target='_blank' href='http://github.com/cryogen/throneteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away!  See the card implementation
-                status list above to have a look at what needs to be done.  If you want to join the dev discord, or ask any other question, send me a note on here, over at&nbsp;
-                        <a target='_blank' href='http://www.twitter.com/cryogen'>Twitter</a> or post in the AGoT Facebook group.  I'll likely find it.
+                    <p>Yup, in the main project <a target='_blank' href='http://github.com/cryogen/throneteki'>GitHub Repository</a>.  Check out the code and instructions on there on how to get started and hack away! If you want to help out with South Korean implementation only just go to <a target='_blank' href='https://github.com/adkateki/throneteki-sk'> GitHub SK Repository</a> or contact me via discord @Adkadi.
                     </p>
 
                     <h4>Donations</h4>
-                    I was always reluctant to accept donations but since I've been asked a few times I thought I'd put up a small section about it here.
+                    Available for the original site also.
 
                     <form action='https://www.paypal.com/cgi-bin/webscr' method='post' target='_top'>
                         <input type='hidden' name='cmd' value='_s-xclick' />
@@ -49,14 +46,10 @@ class About extends React.Component {
                         <img alt='' src='https://www.paypalobjects.com/en_GB/i/scr/pixel.gif' width='1' height='1' />
                     </form>
 
-                    Just to make things clear, I'm not doing this for any personal gain whatsoever, I'm happy to run the servers at my own expense, but any money raised via this link will be used towards paying the hosting fees for the server and related services (error tracking, load balancing etc).
-                    If, after the annnual bills for that are paid up, there is any money left over, I'll put it towards the following years expenses.
-                    Also, this is not required to continue to use and enjoy the site and will not give anything in return (other than my sincerce gratitude and potentially better hardware for the site to run on).
-                    I will also put a donation report in with the monthly reports that I'm publishing so that you know where your donations are going.
 
                     <h2>Special Thanks</h2>
-                    <p>I'd like to thank mtgred, and the whole of the jinteki.net development team(except whoever decided to write the code in clojure, not you. - just kidding!) as without their
-                work to use as a guide and as inspiration, this site would not be where it is today.  To say jinteki is an inspiration is an understatement.
+                    <p>
+			To The Iron Throne team and mantainers and all the time they spent keeping this game alive. 
                     </p>
 
                     <h2>Additional Notes</h2>
