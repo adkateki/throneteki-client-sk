@@ -8,6 +8,8 @@ import Select from '../Form/Select';
 import Typeahead from '../Form/Typeahead';
 import TextArea from '../Form/TextArea';
 import ApiStatus from '../Site/ApiStatus';
+import RestrictedListDropdown from './RestrictedListDropdown';
+import { lookupCardByName } from './DeckParser';
 import * as actions from '../../actions';
 
 class DeckEditor extends React.Component {
@@ -73,7 +75,7 @@ class DeckEditor extends React.Component {
         }
     }
 
-    getDeckFromState() {
+    getDeckFromState(restrictedList) {
         let deck = {
             _id: this.state.deckId,
             name: this.state.deckName,
@@ -85,17 +87,19 @@ class DeckEditor extends React.Component {
             rookeryCards: this.state.rookeryCards
         };
 
-        if(!this.props.restrictedList) {
+        if(!this.props.restrictedList && !this.props.currentRestrictedList) {
             deck.status = {};
         } else {
-            deck.status = validateDeck(deck, { packs: this.props.packs, restrictedLists: this.props.restrictedList });
+            const selectedRestrictedList = restrictedList || this.props.currentRestrictedList;
+            const restrictedLists = selectedRestrictedList ? [selectedRestrictedList] : this.props.restrictedList;
+            deck.status = validateDeck(deck, { packs: this.props.packs, restrictedLists });
         }
 
         return deck;
     }
 
-    triggerDeckUpdated() {
-        const deck = this.getDeckFromState();
+    triggerDeckUpdated(restrictedList) {
+        const deck = this.getDeckFromState(restrictedList);
 
         if(this.props.onDeckUpdated) {
             this.props.onDeckUpdated(deck);
@@ -268,7 +272,7 @@ class DeckEditor extends React.Component {
                         rawAgenda = header[0].trim();
                     }
 
-                    let newAgenda = Object.values(this.props.agendas).find(agenda => agenda.name === rawAgenda);
+                    let newAgenda = lookupCardByName({ cardName: rawAgenda, cards: Object.values(this.props.cards), packs: this.props.packs });
                     if(newAgenda) {
                         agenda = newAgenda;
                     }
@@ -276,9 +280,7 @@ class DeckEditor extends React.Component {
                     if(rawBanners) {
                         let banners = [];
                         for(let rawBanner of rawBanners) {
-                            let banner = this.props.banners.find(banner => {
-                                return rawBanner.trim() === banner.label;
-                            });
+                            let banner = lookupCardByName({ cardName: rawBanner, cards: Object.values(this.props.cards), packs: this.props.packs });
 
                             if(banner) {
                                 banners.push(banner);
@@ -314,7 +316,7 @@ class DeckEditor extends React.Component {
     }
 
     parseCardLine(line) {
-        const pattern = /^(\d+)x?\s+([^()]+)(\s+\((.+)\))?$/;
+        const pattern = /^(\d+)x?\s+(.+)$/;
 
         let match = line.trim().match(pattern);
         if(!match) {
@@ -322,85 +324,9 @@ class DeckEditor extends React.Component {
         }
 
         let count = parseInt(match[1]);
-        let cardName = match[2].trim().toLowerCase();
-        //remove all bracket [] indicators that appear in a card name when the list is copied from thronesdb, trim at the end to remove the space between cardname and []
-        cardName = cardName.replace(/\[.+\]/g,'').trim();
-        let packName = match[4] && match[4].trim().toLowerCase();
-        let pack = packName && this.props.packs.find(pack => pack.code.toLowerCase() === packName || pack.name.toLowerCase() === packName);
+        let card = lookupCardByName({ cardName: match[2], cards: Object.values(this.props.cards), packs: this.props.packs });
 
-        if(cardName.startsWith('Custom ')) {
-            return { count: count, card: this.createCustomCard(cardName) };
-        }
-
-        let cards = Object.values(this.props.cards);
-
-        let matchingCards = cards.filter(card => {
-            if(this.props.agendas[card.code]) {
-                return false;
-            }
-
-            if(pack) {
-                return pack.code === card.packCode && card.name.toLowerCase() === cardName;
-            }
-
-            return card.name.toLowerCase() === cardName;
-        });
-
-        matchingCards.sort((a, b) => this.compareCardByReleaseDate(a, b));
-
-        return { count: count, card: matchingCards[0] };
-    }
-
-    createCustomCard(cardName) {
-        let match = /Custom (.*) - (.*)/.exec(cardName);
-        if(!match) {
-            return null;
-        }
-
-        let type = match[1].toLowerCase();
-        let name = match[2];
-
-        return {
-            code: 'custom_' + type,
-            cost: 0,
-            custom: true,
-            faction: 'neutral',
-            icons: {
-                military: true,
-                intrigue: true,
-                power: true
-            },
-            label: name + ' (Custom)',
-            loyal: false,
-            name: name,
-            packCode: 'Custom',
-            plotStats: {
-                claim: 0,
-                income: 0,
-                initiative: 0,
-                reserve: 0
-            },
-            strength: 0,
-            text: 'Custom',
-            traits: [],
-            type: type,
-            unique: name.includes('*')
-        };
-    }
-
-    compareCardByReleaseDate(a, b) {
-        let packA = this.props.packs.find(pack => pack.code === a.packCode);
-        let packB = this.props.packs.find(pack => pack.code === b.packCode);
-
-        if(!packA.releaseDate && packB.releaseDate) {
-            return 1;
-        }
-
-        if(!packB.releaseDate && packA.releaseDate) {
-            return -1;
-        }
-
-        return new Date(packA.releaseDate) < new Date(packB.releaseDate) ? -1 : 1;
+        return { count: count, card: card };
     }
 
     addCard(list, card, number) {
@@ -437,7 +363,7 @@ class DeckEditor extends React.Component {
     }
 
     render() {
-        if(!this.props.factions || !this.props.agendas || !this.props.cards) {
+        if(!this.props.factions || !this.props.agendas || !this.props.cards || !this.props.restrictedList) {
             return <div>Please wait while loading from the server...</div>;
         }
 
@@ -455,6 +381,14 @@ class DeckEditor extends React.Component {
                         </span>
                         <button ref='submit' type='button' className='btn btn-primary' onClick={ this.onCancelClick.bind(this) }>Cancel</button>
                     </div>
+                </div>
+
+                <div className='form-group'>
+                    <RestrictedListDropdown
+                        currentRestrictedList={ this.props.currentRestrictedList }
+                        onChange={ (restrictedList) => this.triggerDeckUpdated(restrictedList) }
+                        restrictedLists={ this.props.restrictedList }
+                        setCurrentRestrictedList={ this.props.setCurrentRestrictedList } />
                 </div>
 
                 <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://thronesdb.com' target='_blank'>Thrones DB</a> into the box below.</h4>
@@ -517,6 +451,7 @@ DeckEditor.propTypes = {
     apiState: PropTypes.object,
     banners: PropTypes.array,
     cards: PropTypes.object,
+    currentRestrictedList: PropTypes.object,
     deck: PropTypes.object,
     factions: PropTypes.object,
     navigate: PropTypes.func,
@@ -524,6 +459,7 @@ DeckEditor.propTypes = {
     onDeckUpdated: PropTypes.func,
     packs: PropTypes.array,
     restrictedList: PropTypes.array,
+    setCurrentRestrictedList: PropTypes.func,
     updateDeck: PropTypes.func
 };
 
@@ -533,6 +469,7 @@ function mapStateToProps(state) {
         apiState: state.api.SAVE_DECK,
         banners: state.cards.banners,
         cards: state.cards.cards,
+        currentRestrictedList: state.cards.currentRestrictedList,
         decks: state.cards.decks,
         factions: state.cards.factions,
         loading: state.api.loading,
