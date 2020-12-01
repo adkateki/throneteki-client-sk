@@ -24,7 +24,8 @@ function processDeck(deck, state) {
     }
 
     let formattedDeck = formatDeckAsFullCards(deck, state);
-    const restrictedLists = state.currentRestrictedList ? [state.currentRestrictedList] : state.restrictedList;
+    const fallbackRestrictedList = state.restrictedList ? state.restrictedList.slice(0, 1) : undefined;
+    const restrictedLists = state.currentRestrictedList ? [state.currentRestrictedList] : fallbackRestrictedList;
 
     if(!restrictedLists) {
         formattedDeck.status = {};
@@ -96,6 +97,9 @@ export default function(state = { decks: [] }, action) {
 
             // Force an update to the validation results
             newState.decks = processDecks(newState.decks, newState);
+            if(newState.selectedDeck) {
+                newState.selectedDeck = processDeck(newState.selectedDeck, newState);
+            }
 
             return newState;
         case 'RECEIVE_STANDALONE_DECKS':
