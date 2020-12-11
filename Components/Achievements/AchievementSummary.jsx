@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import AchievementStatus from './AchievementStatus';
+import AchievementStatusLabel from './AchievementStatusLabel';
 import AltCard from '../GameBoard/AltCard';
 
 class AchievementSummary extends React.Component {
@@ -40,9 +41,9 @@ class AchievementSummary extends React.Component {
                         <div className='info-row row' ref='agenda'><span>Agenda:</span>  <span className='pull-right' >{ this.props.achievement.agenda && this.props.achievement.agenda.name ? this.props.achievement.agenda.name : 'Any' }</span> </div>
                         { (this.props.achievement.agenda && this.props.achievement.agenda.label === 'Alliance') ? banners : null }
                         <div className='info-row row' ref='achievementTarget'><span>Target:</span><span className='pull-right'>{ this.props.achievement.target } </span></div>
-                        { (this.props.user) && <div className='info-row row' ref='achievementCompletion'><span>Plot achievement:</span><span className='pull-right'>{ this.props.achievement.completed } </span></div> }
+                        { (this.props.user) && (this.props.userAchievement) && <div className='info-row row' ref='achievementCompletion'><span>Progress:</span><span className='pull-right'>{ this.props.userAchievement.progress } </span></div> }
                         { (this.props.user) && (this.props.userAchievement) && <div className='info-row row'><span>Status:</span>
-                            <AchievementStatus className='pull-right' status={ this.props.achievement.status } />
+                            <AchievementStatusLabel className='pull-right text-shadow' achievement={ this.props.achievement } userAchievement={ this.props.userAchievement } />
                         </div> }
                     </div>
                     <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.achievement.agenda && this.props.achievement.agenda.code ? <img className='img-responsive' src={ '/img/cards/' + this.props.achievement.agenda.code + '.png' } /> : null }</div>

@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 class AchievementStatus extends React.Component {
     render() {
+        const text = userAchievement ? achievementStatusLabel(achievement, userAchievement) : 'Loading...';
         let { achievement, userAchievement } = this.props;
         let className = classNames('achievement-status', this.props.className, {
             'label-warning': userAchievement.progress < achievement.target,

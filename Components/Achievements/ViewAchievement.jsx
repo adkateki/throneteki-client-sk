@@ -12,12 +12,12 @@ class ViewAchievement extends React.Component {
     }
 
     render() {
-        let { achievement, user } = this.props;
+        let { achievement, user, userAchievement } = this.props;
 
         return (
             <div className='col-sm-7'>
                 <Panel title={ achievement.name }>
-                    <AchievementSummary achievement={ achievement } user={ user } />
+                    <AchievementSummary achievement={ achievement } user={ user } userAchievement={ userAchievement }/>
                 </Panel>
             </div>);
     }
@@ -25,7 +25,9 @@ class ViewAchievement extends React.Component {
 
 ViewAchievement.propTypes = {
     achievement: PropTypes.object.isRequired,
-    user: PropTypes.object
+    user: PropTypes.object,
+    userAchievement: PropTypes.object
+
 };
 
 export default ViewAchievement;

@@ -39,9 +39,12 @@ class Achievements extends React.Component {
     render() {
 
         let content = null;
+        let userAchievement = null;
 
         let successPanel = null;
-
+        if(!!this.props.selectedAchievement) {
+                          if(!!this.props.userAchievements) userAchievement = this.props.userAchievements[this.props.selectedAchievement.code];
+        }
         if(this.props.apiLoading || !this.props.achievements) {
             content = <div>Loading achievements from the server...</div>;
         } else if(!this.props.apiSuccess) {
@@ -57,9 +60,8 @@ class Achievements extends React.Component {
                             <AchievementsList className='deck-list' activeAchievement={ this.props.selectedAchievement } achievements={ this.props.achievements } onSelectAchievement={ this.props.selectAchievement } userAchievements ={ this.props.userAchievements }/>
                         </Panel>
                     </div>
-                    { !!this.props.selectedAchievement &&
-                        <ViewAchievement achievement={ this.props.selectedAchievement } achievements={ this.props.achievements } user={ this.props.user }/>
-                    }
+                   {(!!this.props.selectedAchievement) && <ViewAchievement achievement={ this.props.selectedAchievement } achievements={ this.props.achievements } user={ this.props.user } userAchievement={userAchievement}/>
+                   }
                 </div>);
         }
 

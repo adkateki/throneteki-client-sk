@@ -43,6 +43,9 @@ export function clearUserAchievements(userAchievement) {
 		type: 'CLEAR_USERACHIEVEMENTS'
 	    };
     }
+    return {
+        type: 'NO_USERACHIEVEMENTS'
+    };
 
 }
 
