@@ -1,6 +1,7 @@
 const menus = [
     { path: '/login', title: 'Login', showOnlyWhenLoggedOut: true, position: 'right' },
     { path: '/register', title: 'Register', showOnlyWhenLoggedOut: true, position: 'right' },
+    { path: '/achievements', title: 'Achievements', position: 'left' },
     { path: '/decks', title: 'Decks', showOnlyWhenLoggedIn: true, position: 'left' },
     { path: '/play', title: 'Play', position: 'left' },
     {

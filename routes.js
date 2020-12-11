@@ -27,6 +27,7 @@ import Patreon from './pages/Patreon';
 import BanlistAdmin from './pages/BanlistAdmin';
 import EventsAdmin from './pages/EventsAdmin';
 import EditEvent from './pages/EventsAdmin/EditEvent';
+import Achievements from './pages/Achievements';
 
 const routes = [
     { path: '/', action: () => <Lobby key='lobby' /> },
@@ -54,7 +55,8 @@ const routes = [
     { path: '/banlist', action: () => <BanlistAdmin key='banlist' permission='canManageBanlist' /> },
     { path: '/events', action: () => <EventsAdmin key='events' /> },
     { path: '/events/add', action: () => <EditEvent key='eventsadd' /> },
-    { path: '/events/:id', action: context => <EditEvent eventId={ context.params.id } key='eventsedit' /> }
+    { path: '/events/:id', action: context => <EditEvent eventId={ context.params.id } key='eventsedit' /> },
+    { path: '/achievements', action: () => <Achievements key='achievements' /> }
 ];
 
 export default routes;

@@ -11,3 +11,4 @@ export * from './ReduxActions/user';
 export * from './ReduxActions/account';
 export * from './ReduxActions/prompt';
 export * from './ReduxActions/banlist';
+export * from './ReduxActions/achievements';

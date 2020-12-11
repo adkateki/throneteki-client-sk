@@ -10,11 +10,12 @@ import admin from './admin';
 import user from './user';
 import account from './account';
 import lobby from './lobby';
+import achievements from './achievements';
 import prompt from './prompt';
 import {reducer as toastrReducer} from 'react-redux-toastr';
 
 const rootReducer = combineReducers({
-    navigation, auth, cards, events, games, news, toastr: toastrReducer, api, admin, user, account, lobby, prompt
+    navigation, auth, cards, events, games, news, toastr: toastrReducer, api, admin, user, account, lobby, prompt, achievements
 });
 
 export default rootReducer;

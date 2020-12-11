@@ -5,3 +5,5 @@ assets/img/cards
 features/conf
 out
 packagever.js
+*.tar.gz
+*.bk
