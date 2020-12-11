@@ -16,16 +16,28 @@ class Achievements extends React.Component {
 
     componentWillMount() {
         this.props.loadAchievements();
+        if(this.props.user) {
+            this.props.loadUserAchievements();
 
+       }else{
+            this.props.clearUserAchievements(this.props.userAchievements);
+       }
+
+    }
+
+    componentDidUpdate() {
+        if(this.props.user) {
+            this.props.loadUserAchievements();
+
+       }else{
+            this.props.clearUserAchievements(this.props.userAchievements);
+       }
 
     }
 
 
     render() {
-        if(this.props.user) {
-		this.props.loadUserAchievements();
 
-        }
         let content = null;
 
         let successPanel = null;

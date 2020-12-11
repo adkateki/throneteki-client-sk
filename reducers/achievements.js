@@ -40,7 +40,7 @@ export default function(state = { achievements: []}, action) {
         case 'REQUEST_ACHIEVEMENTS':
             newState = Object.assign({}, state, {
             });
-            if(newState.selectedAchievement && !newState.selectedAchievements._id) {
+            if(newState.selectedAchievement && !newState.selectedAchievement._id) {
                 if(newState.achievements.length !== 0) {
                     newState.selectedAchievement = newState.achievements[0];
                 }
@@ -60,6 +60,11 @@ export default function(state = { achievements: []}, action) {
             newState = Object.assign({}, state, {
 		userAchievements: action.response.userAchievements
             });
+            return newState;
+        case 'CLEAR_USERACHIEVEMENTS':
+            newState = Object.assign({}, state, {
+            });
+            delete newState['userAchievements'];
             return newState;
         default:
             return state;

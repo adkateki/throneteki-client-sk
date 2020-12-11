@@ -37,3 +37,12 @@ export function selectAchievement(achievement) {
     };
 }
 
+export function clearUserAchievements(userAchievement) {
+    if(userAchievement){
+	    return {
+		type: 'CLEAR_USERACHIEVEMENTS'
+	    };
+    }
+
+}
+
