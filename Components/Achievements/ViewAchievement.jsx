@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ConfirmedButton from '../Form/ConfirmedButton';
 import Panel from '../Site/Panel';
 import AchievementSummary from './AchievementSummary';
+import Sticky from 'react-stickynode';
 
 class ViewAchievement extends React.Component {
     constructor() {
@@ -15,8 +16,8 @@ class ViewAchievement extends React.Component {
         let { achievement, user, userAchievement } = this.props;
 
         return (
-            <div className='col-sm-7'>
-                <Panel title={ achievement.name }>
+            <div className='view-achievement col-sm-7'>
+                <Panel title={achievement.name}>
                     <AchievementSummary achievement={ achievement } user={ user } userAchievement={ userAchievement }/>
                 </Panel>
             </div>);

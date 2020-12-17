@@ -21,8 +21,7 @@ class AchievementRow extends React.Component {
 
         return (
             <div className={ this.props.active ? 'achievement-row active' : 'achievement-row' } key={ this.props.achievement.name } onClick={ this.handleAchievementClick }>
-              { achievement.faction &&  <div className='col-xs-1 deck-image'><img className='card-small' src={ '/img/cards/' + this.props.achievement.faction.value + '.png' } /></div> }
-                { achievement.agenda && (<div className='col-xs-1 deck-image'><img className='card-small' src={ '/img/cards/' + this.props.achievement.agenda.code + '.png' } /></div>) }
+              { achievement.card &&  <div className='col-xs-1 deck-image'><img className='card-small' src={ '/img/cards/' + this.props.achievement.card.code + '.png' } /></div> }
                 <span className='col-xs-9 col-md-9 col-lg-10 achievement-name'>
                     <span>"{ this.props.achievement.name }"</span>
                     { this.props.userAchievement && <AchievementStatusLabel className='pull-right text-shadow' achievement={ achievement } userAchievement={ this.props.userAchievement } />}

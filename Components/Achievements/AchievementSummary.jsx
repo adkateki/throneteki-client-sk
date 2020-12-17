@@ -35,11 +35,10 @@ class AchievementSummary extends React.Component {
         return (
             <div className='achievement-summary col-xs-12'>
                 <div className='achievementlist'>
-                    <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.achievement.faction ? <img className='img-responsive' src={ '/img/cards/' + this.props.achievement.faction.value + '.png' } /> : null }</div>
+                    <div className='col-xs-2 col-sm-3 no-x-padding'>{ this.props.achievement.card ? <img className='img-responsive' src={ '/img/cards/' + this.props.achievement.card.code + '.png' } /> : null }</div>
                     <div className='col-xs-8 col-sm-6'>
-                        <div className='info-row row'><span>Faction:</span> <span className={ 'pull-right' }>{ this.props.achievement.faction ? this.props.achievement.faction.name : 'Any' } </span> </div>
-                        <div className='info-row row' ref='agenda'><span>Agenda:</span>  <span className='pull-right' >{ this.props.achievement.agenda && this.props.achievement.agenda.name ? this.props.achievement.agenda.name : 'Any' }</span> </div>
-                        { (this.props.achievement.agenda && this.props.achievement.agenda.label === 'Alliance') ? banners : null }
+                        <div className='info-row row'><span>Card:</span> <span className={ 'pull-right' }>{ this.props.achievement.card ? this.props.achievement.card.name : 'Any' } </span> </div>
+                        <div className='info-row row'><span>Title:</span> <span className={ 'pull-right' }>{ this.props.achievement.title ? "\""+this.props.achievement.title+"\"": 'None' } </span> </div>
                         <div className='info-row row' ref='achievementTarget'><span>Target:</span><span className='pull-right'>{ this.props.achievement.target } </span></div>
                         { (this.props.user) && (this.props.userAchievement) && <div className='info-row row' ref='achievementCompletion'><span>Progress:</span><span className='pull-right'>{ this.props.userAchievement.progress } </span></div> }
                         { (this.props.user) && (this.props.userAchievement) && <div className='info-row row'><span>Status:</span>
