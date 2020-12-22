@@ -220,5 +220,19 @@
       "labelClass": "col-sm-2",
       "fieldClass": "col-sm-4"
     }
+  ],
+  "deleteEventGames": [
+    {
+      "name": "eventName",
+      "label": "Event to delete",
+      "placeholder": "Enter an event name",
+      "inputType": "text",
+      "validationProperties": {
+        "data-val": true,
+        "data-val-required": "Please enter a event name"
+      },
+      "labelClass": "col-sm-4",
+      "fieldClass": "col-sm-6"
+    }
   ]
 }

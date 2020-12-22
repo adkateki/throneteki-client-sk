@@ -30,6 +30,16 @@ function Game(props) {
             } else {
                 players.push(<div key={ players[0].name } className='game-faction-row other-player' />);
             }
+        } else if (players.length == 0){
+            if(props.showJoinButton) {
+                players.push(
+                        <button key={game.id} className='btn btn-primary gamelist-button img-responsive' onClick={ props.onJoinGame }>Join</button>
+                    );
+            }else{
+                 players.push(
+                        <div key={game.id} className='game-title' > Winner: {game.winner} </div>
+                    );
+            }
         }
 
         return players;
@@ -61,6 +71,9 @@ function Game(props) {
                     <b>{ title }</b>
                 </span>
                 <span className='game-time'>{ `[${formattedTime}]` }</span>
+                { game.winner && <span className='game-title'>
+                    <b> Winner: { game.winner } </b>
+                </span>}
                 <span className='game-icons'>
                     { game.useRookery && <img src='/img/RavenIcon.png' className='game-list-icon' alt='Rookery format' /> }
                     { game.showHand && <img src='/img/ShowHandIcon.png' className='game-list-icon' alt='Show hands to spectators' /> }

@@ -7,6 +7,7 @@ import Panel from '../Components/Site/Panel';
 import Link from '../Components/Site/Link';
 import DeckList from '../Components/Decks/DeckList';
 import RestrictedListDropdown from '../Components/Decks/RestrictedListDropdown';
+import EventsDropdown from '../Components/Decks/EventsDropdown';
 import ViewDeck from '../Components/Decks/ViewDeck';
 import * as actions from '../actions';
 
@@ -56,13 +57,16 @@ class Decks extends React.Component {
                     </div>
                     <div className='col-sm-5 full-height'>
                         <Panel title='Your decks'>
+                            <div>
+                                <EventsDropdown currentEvent={ this.props.currentEvent } events={ this.props.events } setCurrentEvent={ this.props.setCurrentEvent } />
+                            </div>
                             <div className='form-group'>
                                 <Link className='btn btn-primary' href='/decks/add'>New Deck</Link>
                             </div>
                             <div>
                                 <RestrictedListDropdown currentRestrictedList={ this.props.currentRestrictedList } restrictedLists={ this.props.restrictedLists } setCurrentRestrictedList={ this.props.setCurrentRestrictedList } />
                             </div>
-                            <DeckList className='deck-list' activeDeck={ this.props.selectedDeck } decks={ this.props.decks } onSelectDeck={ this.props.selectDeck } />
+                            <DeckList className='deck-list' activeDeck={ this.props.selectedDeck } decks={ this.props.decks } currentEvent={ this.props.currentEvent } onSelectDeck={ this.props.selectDeck } />
                         </Panel>
                     </div>
                     { !!this.props.selectedDeck &&
@@ -83,6 +87,7 @@ Decks.propTypes = {
     cards: PropTypes.object,
     clearDeckStatus: PropTypes.func,
     currentRestrictedList: PropTypes.object,
+    currentEvent: PropTypes.object,
     deckDeleted: PropTypes.bool,
     decks: PropTypes.array,
     deleteDeck: PropTypes.func,
@@ -90,9 +95,11 @@ Decks.propTypes = {
     loading: PropTypes.bool,
     navigate: PropTypes.func,
     restrictedLists: PropTypes.array,
+    events: PropTypes.array,
     selectDeck: PropTypes.func,
     selectedDeck: PropTypes.object,
     setCurrentRestrictedList: PropTypes.func
+    setCurrentEvent: PropTypes.func
 };
 
 function mapStateToProps(state) {
@@ -102,10 +109,12 @@ function mapStateToProps(state) {
         apiSuccess: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.success : undefined,
         cards: state.cards.cards,
         currentRestrictedList: state.cards.currentRestrictedList,
+        currentEvent: state.events.event,
         deckDeleted: state.cards.deckDeleted,
         decks: state.cards.decks,
         loading: state.api.loading,
         restrictedLists: state.cards.restrictedList,
+        events: state.events.events,
         selectedDeck: state.cards.selectedDeck
     };
 }

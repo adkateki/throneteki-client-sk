@@ -43,7 +43,7 @@ class GameList extends React.Component {
     }
 
     canJoin(game) {
-        if(this.props.currentGame || game.started || game.full) {
+        if(this.props.currentGame || game.started || game.full || game.winner) {
             return false;
         }
 

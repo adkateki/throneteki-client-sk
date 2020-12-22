@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import NewGame from './NewGame';
+import NewEventGames from './NewEventGames';
+import DeleteEventGames from './DeleteEventGames';
 import GameList from './GameList';
 import PendingGame from './PendingGame';
 import PasswordGame from './PasswordGame';
@@ -19,7 +21,9 @@ const GameState = Object.freeze({
     NewGame: 1,
     PendingGame: 2,
     PasswordedGame: 3,
-    Started: 4
+    Started: 4,
+    NewEventGames: 5,
+    DeleteEventGames: 6
 });
 
 class GameLobby extends React.Component {
@@ -27,6 +31,8 @@ class GameLobby extends React.Component {
         super(props);
 
         this.onNewGameClick = this.onNewGameClick.bind(this);
+        this.onNewEventGamesClick = this.onNewEventGamesClick.bind(this);
+        this.onDeleteEventGamesClick = this.onDeleteEventGamesClick.bind(this);
         this.onQuickJoinClick = this.onQuickJoinClick.bind(this);
         this.onModalHidden = this.onModalHidden.bind(this);
 
@@ -51,7 +57,7 @@ class GameLobby extends React.Component {
     }
 
     componentDidMount() {
-        $('#pendingGameModal').on('hide.bs.modal', this.onModalHidden);
+        $('#pendingGameModal').on('hidden.bs.modal', this.onModalHidden);
 
         if(window.Notification && Notification.permission !== 'granted') {
             Notification.requestPermission((status) => {
@@ -99,6 +105,10 @@ class GameLobby extends React.Component {
             this.setState({ gameState: GameState.Started });
         } else if(!props.currentGame && props.newGame && props.user) {
             this.setState({ gameState: GameState.NewGame });
+        } else if(!props.currentGame && props.newEventGames && props.user) {
+            this.setState({ gameState: GameState.NewEventGames });
+        } else if(!props.currentGame && props.deleteEventGames && props.user) {
+            this.setState({ gameState: GameState.DeleteEventGames });
         }
     }
 
@@ -141,6 +151,29 @@ class GameLobby extends React.Component {
 
         this.props.startNewGame();
     }
+    startNewEventGames() {
+        if(!this.props.user) {
+            this.setState({ errorMessage: 'Please login before trying to start a new game' });
+
+            return;
+        }
+
+        $('#pendingGameModal').modal('show');
+
+        this.props.startNewEventGames();
+    }
+
+    startDeleteEventGames() {
+        if(!this.props.user) {
+            this.setState({ errorMessage: 'Please login before trying to start a new game' });
+
+            return;
+        }
+
+        $('#pendingGameModal').modal('show');
+
+        this.props.startDeleteEventGames();
+    }
 
     onNewGameClick(event) {
         event.preventDefault();
@@ -148,6 +181,20 @@ class GameLobby extends React.Component {
         this.setState({ quickJoin: false });
 
         this.startNewGame();
+    }
+    onNewEventGamesClick(event) {
+        event.preventDefault();
+
+        this.setState({ quickJoin: false });
+
+        this.startNewEventGames();
+    }
+
+    onDeleteEventGamesClick(event) {
+        event.preventDefault();
+
+        this.setState({ quickJoin: false });
+        this.startDeleteEventGames();
     }
 
     onQuickJoinClick(event) {
@@ -174,6 +221,12 @@ class GameLobby extends React.Component {
                 if(!this.props.currentGame.started) {
                     this.props.leaveGame(this.props.currentGame.id);
                 }
+                break;
+            case GameState.NewEventGames:
+                this.props.cancelNewEventGames();
+                break;
+            case GameState.DeleteEventGames:
+                this.props.cancelDeleteEventGames();
                 break;
         }
 
@@ -216,6 +269,16 @@ class GameLobby extends React.Component {
                 modalProps.title = 'Password Required';
                 modalBody = <PasswordGame />;
                 break;
+            case GameState.NewEventGames:
+                modalProps.title = 'Event Games Options';
+                modalProps.okButton = 'Generate Games';
+                modalBody = <NewEventGames defaultGameName={ this.props.user.username + '\'s game' } quickJoin={ this.state.quickJoin } />;
+                break;
+            case GameState.DeleteEventGames:
+                modalProps.title = 'Delete event games';
+                modalProps.okButton = 'Delete Event Games';
+                modalBody = <DeleteEventGames defaultGameName={ this.props.user.username + '\'s game' } quickJoin={ this.state.quickJoin } />;
+                break;
         }
 
         return (
@@ -224,8 +287,10 @@ class GameLobby extends React.Component {
                     { this.props.bannerNotice ? <AlertPanel type='error' message={ this.props.bannerNotice } /> : null }
                     { this.state.errorMessage ? <AlertPanel type='error' message={ this.state.errorMessage } /> : null }
                     <Panel title='Current Games'>
+                        { this.props.user && this.props.user.permissions.canManageEvents && <button className='btn btn-primary' onClick={ this.onNewEventGamesClick } disabled={ !!this.props.currentGame || !this.props.user }>Event games</button>}
+                        { this.props.user && this.props.user.permissions.canManageEvents && <button className='btn btn-primary' onClick={ this.onDeleteEventGamesClick } disabled={ !!this.props.currentGame || !this.props.user }>Delete Event</button>}
                         <div className='col-xs-12 game-controls'>
-                            <div className='col-xs-3 join-buttons'>
+                           <div className='col-xs-3 join-buttons'>
                                 <button className='btn btn-primary' onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame || !this.props.user }>New Game</button>
                                 <button className='btn btn-primary' onClick={ this.onQuickJoinClick } disabled={ !!this.props.currentGame || !this.props.user }>Quick Join</button>                            </div>
                             <div className='col-xs-9 game-filter'>
@@ -253,14 +318,20 @@ GameLobby.displayName = 'GameLobby';
 GameLobby.propTypes = {
     bannerNotice: PropTypes.string,
     cancelNewGame: PropTypes.func,
+    cancelNewEventGames: PropTypes.func,
+    cancelDeleteEventGames: PropTypes.func,
     cancelPasswordJoin: PropTypes.func,
     currentGame: PropTypes.object,
     games: PropTypes.array,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
+    newEventGames: PropTypes.bool,
+    deleteEventGames: PropTypes.bool,
     passwordGame: PropTypes.object,
     setContextMenu: PropTypes.func,
     startNewGame: PropTypes.func,
+    startNewEventGames: PropTypes.func,
+    startDeleteEventGames: PropTypes.func,
     user: PropTypes.object
 };
 
@@ -270,6 +341,8 @@ function mapStateToProps(state) {
         currentGame: state.lobby.currentGame,
         games: state.lobby.games,
         newGame: state.lobby.newGame,
+        newEventGames: state.lobby.newEventGames,
+        deleteEventGames: state.lobby.deleteEventGames,
         passwordGame: state.lobby.passwordGame,
         socket: state.lobby.socket,
         user: state.account.user

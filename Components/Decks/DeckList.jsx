@@ -5,7 +5,8 @@ import DeckRow from './DeckRow';
 
 class DeckList extends React.Component {
     render() {
-        let { activeDeck, className, decks, onSelectDeck } = this.props;
+        let { activeDeck, className, decks, currentEvent, onSelectDeck } = this.props;
+        currentEvent.name !== 'None' ? decks = currentEvent.decks : decks = this.props.decks;  
 
         return (
             <div className={ className }>
@@ -22,6 +23,7 @@ DeckList.propTypes = {
     activeDeck: PropTypes.object,
     className: PropTypes.string,
     decks: PropTypes.array,
+    currentEvent: PropTypes.string,
     onSelectDeck: PropTypes.func
 };
 

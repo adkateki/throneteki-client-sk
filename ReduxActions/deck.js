@@ -55,12 +55,13 @@ export function deleteDeck(deck) {
     };
 }
 
-export function saveDeck(deck) {
+export function saveDeck(deck, eventName) {
     let formattedDeck = formatDeckAsShortCards(deck);
     formattedDeck.deckName = deck.name;
 
     let str = JSON.stringify({
-        deck: formattedDeck
+        deck: formattedDeck,
+        eventName: eventName
     });
 
     return {

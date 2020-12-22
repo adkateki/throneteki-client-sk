@@ -14,10 +14,29 @@ export function startNewGame() {
         type: 'START_NEWGAME'
     };
 }
-
+export function startNewEventGames() {
+    return {
+        type: 'START_NEWEVENTGAMES'
+    };
+}
+export function startDeleteEventGames() {
+    return {
+        type: 'START_DELETEEVENTGAMES'
+    };
+}
 export function cancelNewGame() {
     return {
         type: 'CANCEL_NEWGAME'
+    };
+}
+export function cancelNewEventGames() {
+    return {
+        type: 'CANCEL_NEWEVENTGAMES'
+    };
+}
+export function cancelDeleteEventGames() {
+    return {
+        type: 'CANCEL_DELETEEVENTGAMES'
     };
 }
 

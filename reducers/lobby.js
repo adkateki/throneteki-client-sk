@@ -56,9 +56,25 @@ export default function(state = defaultState, action) {
             return Object.assign({}, state, {
                 newGame: true
             });
+        case 'START_NEWEVENTGAMES':
+            return Object.assign({}, state, {
+                newEventGames: true
+            });
+        case 'START_DELETEEVENTGAMES':
+            return Object.assign({}, state, {
+                deleteEventGames: true
+            });
         case 'CANCEL_NEWGAME':
             return Object.assign({}, state, {
                 newGame: false
+            });
+        case 'CANCEL_NEWEVENTGAMES':
+            return Object.assign({}, state, {
+                newEventGames: false
+            });
+        case 'CANCEL_DELETEEVENTGAMES':
+            return Object.assign({}, state, {
+                deleteEventGames: false
             });
         case 'CLEAR_GAMESTATE':
             return Object.assign({}, state, {
