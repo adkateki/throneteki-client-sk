@@ -35,7 +35,7 @@ export class AddDeck extends React.Component {
     }
 
     onAddDeck(deck) {
-        this.props.saveDeck(deck);
+        this.props.saveDeck(deck, this.props.currentEvent);
     }
 
     onDeckUpdated(deck) {
@@ -44,6 +44,10 @@ export class AddDeck extends React.Component {
 
     render() {
         let content;
+        let deckEditorText='Deck Editor';
+        if(this.props.currentEvent){
+             deckEditorText=deckEditorText+" for \""+this.props.currentEvent.name+"\" event"
+        }
 
         if(this.props.loading) {
             content = <div>Loading decks from the server...</div>;
@@ -53,8 +57,8 @@ export class AddDeck extends React.Component {
             content = (
                 <div>
                     <div className='col-sm-6'>
-                        <Panel title='Deck Editor'>
-                            <DeckEditor onDeckSave={ this.onAddDeck } onDeckUpdated={ this.onDeckUpdated } deck={ this.state.deck } />
+                        <Panel title={ deckEditorText }>
+                            <DeckEditor onDeckSave={ this.onAddDeck } onDeckUpdated={ this.onDeckUpdated } deck={ this.state.deck } currentEvent={this.props.currentEvent}/>
                         </Panel>
                     </div>
                     <div className='col-sm-6'>
@@ -74,6 +78,7 @@ AddDeck.propTypes = {
     addDeck: PropTypes.func,
     agendas: PropTypes.object,
     apiError: PropTypes.string,
+    currentEvent: PropTypes.object,
     cards: PropTypes.object,
     deckSaved: PropTypes.bool,
     factions: PropTypes.object,
@@ -87,6 +92,7 @@ function mapStateToProps(state) {
         agendas: state.cards.agendas,
         apiError: state.api.message,
         cards: state.cards.cards,
+        currentEvent: state.events.currentEvent,
         deckSaved: state.cards.deckSaved,
         factions: state.cards.factions,
         loading: state.api.loading,

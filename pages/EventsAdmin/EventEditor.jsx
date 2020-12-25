@@ -14,6 +14,7 @@ class EventEditor extends React.Component {
 
         let event = {};
         event = Object.assign(event, {
+            allowDeckEdition: false,
             useDefaultRestrictedList: false,
             defaultRestrictedList: undefined,
             useEventGameOptions: false, 
@@ -26,6 +27,7 @@ class EventEditor extends React.Component {
         this.state = {
             eventId: event._id,
             name: event.name,
+            allowDeckEdition: event.allowDeckEdition,
             useDefaultRestrictedList: event.useDefaultRestrictedList,
             defaultRestrictedList: event.defaultRestrictedList,
             restricted: event.restricted,
@@ -44,6 +46,7 @@ class EventEditor extends React.Component {
         return {
             _id: this.state.eventId,
             name: this.state.name,
+            allowDeckEdition: this.state.allowDeckEdition,
             useDefaultRestrictedList: this.state.useDefaultRestrictedList,
             defaultRestrictedList: this.state.defaultRestrictedList,
             useEventGameOptions: this.state.useEventGameOptions,
@@ -224,6 +227,7 @@ class EventEditor extends React.Component {
 
         if(this.props.onEventSave) {
             this.props.onEventSave(this.getEventFromState());
+          //  this.props.socket.emit('eventedited', this.getEventFromState()._id);
         }
     }
 
@@ -249,6 +253,8 @@ class EventEditor extends React.Component {
                 <form className='form form-horizontal'>
                     <Input name='name' label='Event Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Event Name'
                         type='text' onChange={ this.onChange.bind(this, 'name') } value={ this.state.name } />
+                    <Checkbox name='allowDeckEdition' label='Allow Deck Edition' labelClass='col-sm-4' fieldClass='col-sm-offset-3 col-sm-8'
+                        onChange={ this.onCheckboxChange.bind(this, 'allowDeckEdition') } checked={ this.state.allowDeckEdition } />
                     <Checkbox name='useDefaultRestrictedList' label='Use default Restricted List' labelClass='col-sm-4' fieldClass='col-sm-offset-3 col-sm-8'
                         onChange={ this.onCheckboxChange.bind(this, 'useDefaultRestrictedList') } checked={ this.state.useDefaultRestrictedList } />
                     { this.state.useDefaultRestrictedList
@@ -352,6 +358,7 @@ EventEditor.propTypes = {
     navigate: PropTypes.func,
     onEventSave: PropTypes.func,
     packs: PropTypes.array,
+    socket: PropTypes.object,
     restrictedLists: PropTypes.array
 };
 

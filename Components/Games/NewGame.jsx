@@ -147,7 +147,6 @@ class NewGame extends React.Component {
 
     onSubmitClick(event) {
         event.preventDefault();
-
         this.props.socket.emit('newgame', {
             name: this.state.gameName,
             eventId: this.state.eventId,
@@ -374,7 +373,7 @@ function mapStateToProps(state) {
         allowMelee: state.account.user ? state.account.user.permissions.allowMelee : false,
         events: state.events.events,
         restrictedLists: state.cards.restrictedList,
-        socket: state.lobby.socket
+        socket: state.lobby.socket,
     };
 }
 

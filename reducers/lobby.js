@@ -94,7 +94,6 @@ function handleGameState(action, state) {
     let retState = Object.assign({}, state, {
         currentGame: action.args[0]
     });
-
     var username = action.args[1];
 
     var currentState = retState.currentGame;
@@ -168,6 +167,18 @@ function handleMessage(action, state) {
 
             newState = Object.assign({}, state, {
                 games: updatedGames
+            });
+            break;
+        case 'updateevent':
+            var updatedEvents = state.events.slice(0);
+            for(let event of action.args[0]) {
+                let index = updatedEvents.findIndex(e => e._id === event._id);
+
+                updatedEvents[index] = event;
+            }
+
+            newState = Object.assign({}, state, {
+                events: updatedEvents
             });
             break;
         case 'users':

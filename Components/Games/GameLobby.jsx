@@ -57,7 +57,7 @@ class GameLobby extends React.Component {
     }
 
     componentDidMount() {
-        $('#pendingGameModal').on('hidden.bs.modal', this.onModalHidden);
+        $('#pendingGameModal').on('hide.bs.modal', this.onModalHidden);
 
         if(window.Notification && Notification.permission !== 'granted') {
             Notification.requestPermission((status) => {

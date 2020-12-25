@@ -39,8 +39,9 @@ class PendingGame extends React.Component {
 
     componentDidMount() {
         this.props.setCurrentRestrictedList(this.props.currentGame.restrictedList);
-        this.props.loadDecks();
-        this.props.loadStandaloneDecks();
+        this.props.setCurrentEvent(this.props.currentGame.event);
+        this.props.loadDecks(this.props.currentGame.event);
+//        this.props.loadStandaloneDecks();
     }
 
     componentWillReceiveProps(props) {
@@ -295,6 +296,7 @@ PendingGame.propTypes = {
     standaloneDecks: PropTypes.array,
     startGame: PropTypes.func,
     user: PropTypes.object,
+    setCurrentEvent: PropTypes.func,
     zoomCard: PropTypes.func
 };
 

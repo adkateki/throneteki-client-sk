@@ -152,6 +152,10 @@ export function connectLobby() {
             dispatch(lobbyMessageReceived('updategame', games));
         });
 
+        socket.on('updateevent', events => {
+            dispatch(lobbyMessageReceived('updateevent', events));
+        });
+
         socket.on('games', games => {
             dispatch(lobbyMessageReceived('games', games));
         });

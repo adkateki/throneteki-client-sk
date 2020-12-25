@@ -1,16 +1,28 @@
 import { formatDeckAsShortCards } from 'throneteki-deck-helper';
 
-export function loadDecks() {
+export function loadDecks(event) {
+    let eventName = 'None';
+    let apiUrl = '/api/decks';
+    if(event && event._id != 'none'){
+        eventName = event.name;
+        apiUrl = '/api/decks/events/'+eventName;
+    }
     return {
         types: ['REQUEST_DECKS', 'RECEIVE_DECKS'],
         shouldCallAPI: (state) => {
             return state.cards.singleDeck || state.cards.decks.length === 0;
         },
-        APIParams: { url: '/api/decks', cache: false }
+        APIParams: { url: `${apiUrl}`, cache: false }
     };
 }
 
-export function loadDeck(deckId) {
+export function loadDeck(deckId, event) {
+    let eventName = 'None';
+    let apiUrl = '/api/decks';
+    if(event && event._id != 'none'){
+        eventName = event.name;
+        apiUrl = '/api/decks/events/'+eventName;
+    }
     return {
         types: ['REQUEST_DECK', 'RECEIVE_DECK'],
         shouldCallAPI: (state) => {
@@ -20,7 +32,7 @@ export function loadDeck(deckId) {
 
             return ret;
         },
-        APIParams: { url: `/api/decks/${deckId}`, cache: false }
+        APIParams: { url: `${apiUrl}/${deckId}`, cache: false }
     };
 }
 
@@ -44,21 +56,29 @@ export function updateDeck(deck) {
     };
 }
 
-export function deleteDeck(deck) {
+export function deleteDeck(deck, event) {
+    let eventName = 'None';
+    let apiUrl = '/api/decks';
+    if(event && event._id != 'none'){
+        eventName = event.name;
+        apiUrl = '/api/decks/events/'+eventName;
+    }
+    console.log(apiUrl);
     return {
         types: ['DELETE_DECK', 'DECK_DELETED'],
         shouldCallAPI: () => true,
         APIParams: {
-            url: `/api/decks/${deck._id}`,
+            url: `${apiUrl}/${deck._id}`,
             type: 'DELETE'
         }
     };
 }
 
-export function saveDeck(deck, eventName) {
+export function saveDeck(deck, event) {
     let formattedDeck = formatDeckAsShortCards(deck);
     formattedDeck.deckName = deck.name;
-
+    let eventName = 'None';
+    if(event) eventName = event.name;
     let str = JSON.stringify({
         deck: formattedDeck,
         eventName: eventName

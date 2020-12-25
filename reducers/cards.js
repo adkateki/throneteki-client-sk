@@ -205,6 +205,12 @@ export default function(state = { decks: [] }, action) {
                 deckDeleted: false,
                 deckSaved: false
             });
+        case 'SET_CURRENT_EVENT':
+            newState = Object.assign({}, state, {
+                decks: []
+            });
+
+            return newState;
         default:
             return state;
     }

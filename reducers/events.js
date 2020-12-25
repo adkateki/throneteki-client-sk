@@ -26,6 +26,12 @@ export default function(state = { events: [] }, action) {
             });
 
             return newState;
+        case 'SET_CURRENT_EVENT':
+            newState = Object.assign({}, state, {
+                currentEvent: action.currentEvent
+            });
+
+            return newState;
         default:
             return state;
     }

@@ -398,7 +398,8 @@ export class GameBoard extends React.Component {
                                 phase={ thisPlayer.phase }
                                 timerLimit={ this.props.timerLimit }
                                 timerStartTime={ this.props.timerStartTime }
-                                stopAbilityTimer={ this.props.stopAbilityTimer } />
+                                stopAbilityTimer={ this.props.stopAbilityTimer }
+                                winner={ this.props.currentGame.winner } />
                         </div>
                     </div>
                     <div className='play-area'>

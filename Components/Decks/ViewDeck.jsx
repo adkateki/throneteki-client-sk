@@ -20,19 +20,20 @@ class ViewDeck extends React.Component {
 
     handleDeleteClick(event) {
         event.preventDefault();
-        this.props.onDeleteDeck(this.props.deck);
+        this.props.onDeleteDeck(this.props.deck, this.props.currentEvent);
     }
 
     render() {
         let { deck, cards } = this.props;
-
+        let showEdit = !this.props.currentEvent || (this.props.currentEvent.allowDeckEdition);
         return (
             <div className='col-sm-7'>
                 <Panel title={ deck.name }>
+                   { showEdit &&
                     <div className='btn-group col-xs-12'>
                         <button className='btn btn-primary' onClick={ this.handleEditClick }>Edit</button>
                         <ConfirmedButton onClick={ this.handleDeleteClick }>Delete</ConfirmedButton>
-                    </div>
+                    </div>}
                     <DeckSummary deck={ deck } cards={ cards } />
                 </Panel>
             </div>);
@@ -43,7 +44,8 @@ ViewDeck.propTypes = {
     cards: PropTypes.object,
     deck: PropTypes.object.isRequired,
     onDeleteDeck: PropTypes.func.isRequired,
-    onEditDeck: PropTypes.func.isRequired
+    onEditDeck: PropTypes.func.isRequired,
+    currentEvent: PropTypes.object
 };
 
 export default ViewDeck;

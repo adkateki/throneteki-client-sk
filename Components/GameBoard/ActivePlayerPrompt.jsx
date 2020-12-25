@@ -55,10 +55,10 @@ class ActivePlayerPrompt extends React.Component {
 
             let clickCallback = button.timerCancel ? event => this.onCancelTimerClick(event, button) :
                 event => this.onButtonClick(event, button);
-
+            let buttonClassName = button.arg === 'report' ? 'btn btn-default report-button' : 'btn btn-default prompt-button'; 
             let option = (
                 <button key={ button.command + buttonIndex.toString() }
-                    className='btn btn-default prompt-button'
+                    className={buttonClassName}
                     onClick={ clickCallback }
                     onMouseOver={ event => this.onMouseOver(event, button.card) }
                     onMouseOut={ event => this.onMouseOut(event, button.card) }
@@ -124,10 +124,13 @@ class ActivePlayerPrompt extends React.Component {
             timer = (
                 <AbilityTimer startTime={ this.props.timerStartTime } limit={ this.props.timerLimit } />);
         }
-
+        let phaseClassName='phase-indicator';
+        if(this.props.winner){
+            phaseClassName='phase-indicator-winner';
+        } 
         return (<div>
             { timer }
-            <div className={ 'phase-indicator ' + this.props.phase } onClick={ this.props.onTitleClick }>
+            <div className={ phaseClassName +" "+ this.props.phase } onClick={ this.props.onTitleClick }>
                 { this.props.phase } phase
             </div>
             { promptTitle }
@@ -158,7 +161,8 @@ ActivePlayerPrompt.propTypes = {
     stopAbilityTimer: PropTypes.func,
     timerLimit: PropTypes.number,
     timerStartTime: PropTypes.instanceOf(Date),
-    user: PropTypes.object
+    user: PropTypes.object,
+    winner: PropTypes.string
 };
 
 export default ActivePlayerPrompt;

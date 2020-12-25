@@ -31,7 +31,6 @@ export function saveEvent(event) {
     let str = JSON.stringify({
         event
     });
-
     return {
         types: ['SAVE_EVENT', 'EVENT_SAVED'],
         shouldCallAPI: () => true,
@@ -42,3 +41,11 @@ export function saveEvent(event) {
         }
     };
 }
+export function setCurrentEvent(currentEvent) {
+    return {
+        type: 'SET_CURRENT_EVENT',
+        currentEvent
+    };
+}
+
+

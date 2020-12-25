@@ -20,21 +20,24 @@ class Decks extends React.Component {
     }
 
     componentWillMount() {
-        this.props.loadDecks();
+        this.props.loadEvents();
+        this.props.loadDecks(this.props.currentEvent);
     }
 
     handleEditDeck(deck) {
         this.props.navigate(`/decks/edit/${deck._id}`);
     }
 
-    handleDeleteDeck(deck) {
-        this.props.deleteDeck(deck);
+    handleDeleteDeck(deck, currentEvent) {
+        this.props.deleteDeck(deck, currentEvent);
     }
 
     render() {
         let content = null;
-
+        let decks = this.props.decks;
         let successPanel = null;
+        let showNewDeck = true;
+        let newDeckText = 'New Deck';
 
         if(this.props.deckDeleted) {
             setTimeout(() => {
@@ -43,6 +46,12 @@ class Decks extends React.Component {
             successPanel = (
                 <AlertPanel message='Deck deleted successfully' type={ 'success' } />
             );
+        }
+
+        if(this.props.currentEvent){
+           newDeckText = newDeckText+" for \""+this.props.currentEvent.name+"\" event"; 
+//show new deck button only if there are no decks for the event
+           if(this.props.decks.length >= 1) showNewDeck = false;
         }
 
         if(this.props.apiLoading || !this.props.cards || !this.props.decks || !this.props.restrictedLists) {
@@ -58,11 +67,12 @@ class Decks extends React.Component {
                     <div className='col-sm-5 full-height'>
                         <Panel title='Your decks'>
                             <div>
-                                <EventsDropdown currentEvent={ this.props.currentEvent } events={ this.props.events } setCurrentEvent={ this.props.setCurrentEvent } />
+                                <EventsDropdown currentEvent={ this.props.currentEvent } events={ this.props.events } setCurrentEvent={ this.props.setCurrentEvent } loadDecks={ this.props.loadDecks } />
                             </div>
+                           { showNewDeck &&
                             <div className='form-group'>
-                                <Link className='btn btn-primary' href='/decks/add'>New Deck</Link>
-                            </div>
+                                <Link className='btn btn-primary' href='/decks/add'>{ newDeckText }</Link>
+                            </div>}
                             <div>
                                 <RestrictedListDropdown currentRestrictedList={ this.props.currentRestrictedList } restrictedLists={ this.props.restrictedLists } setCurrentRestrictedList={ this.props.setCurrentRestrictedList } />
                             </div>
@@ -70,7 +80,7 @@ class Decks extends React.Component {
                         </Panel>
                     </div>
                     { !!this.props.selectedDeck &&
-                        <ViewDeck deck={ this.props.selectedDeck } cards={ this.props.cards } onEditDeck={ this.handleEditDeck } onDeleteDeck={ this.handleDeleteDeck } />
+                        <ViewDeck deck={ this.props.selectedDeck } cards={ this.props.cards } onEditDeck={ this.handleEditDeck } onDeleteDeck={ this.handleDeleteDeck } currentEvent={ this.props.currentEvent }/>
                     }
                 </div>);
         }
@@ -98,7 +108,7 @@ Decks.propTypes = {
     events: PropTypes.array,
     selectDeck: PropTypes.func,
     selectedDeck: PropTypes.object,
-    setCurrentRestrictedList: PropTypes.func
+    setCurrentRestrictedList: PropTypes.func,
     setCurrentEvent: PropTypes.func
 };
 
@@ -109,13 +119,14 @@ function mapStateToProps(state) {
         apiSuccess: state.api.REQUEST_DECKS ? state.api.REQUEST_DECKS.success : undefined,
         cards: state.cards.cards,
         currentRestrictedList: state.cards.currentRestrictedList,
-        currentEvent: state.events.event,
+        currentEvent: state.events.currentEvent,
         deckDeleted: state.cards.deckDeleted,
         decks: state.cards.decks,
         loading: state.api.loading,
         restrictedLists: state.cards.restrictedList,
         events: state.events.events,
         selectedDeck: state.cards.selectedDeck
+
     };
 }
 

@@ -19,7 +19,8 @@ module.exports = merge(common, {
         proxy: [{
             context: ['/api', '/socket.io'],
             target: `http://${process.env.LOBBYHOST || 'localhost'}:4000`
-        }]
+        }],
+        disableHostCheck: true
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()

@@ -19,7 +19,7 @@ class EditEvent extends React.Component {
     }
 
     render() {
-        const { apiState, cards, eventId, events, navigate, packs, saveEvent, restrictedLists } = this.props;
+        const { apiState, cards, eventId, events, navigate, packs, saveEvent, socket, restrictedLists } = this.props;
 
         if(!cards || !packs || !events || !restrictedLists) {
             return <div>Please wait while loading from the server...</div>;
@@ -49,6 +49,7 @@ EditEvent.propTypes = {
     navigate: PropTypes.func,
     packs: PropTypes.array,
     restrictedLists : PropTypes.array,
+    socket: PropTypes.object,
     saveEvent: PropTypes.func
 };
 
@@ -60,6 +61,7 @@ function mapStateToProps(state) {
         eventSaved: state.events.eventSaved,
         loading: state.api.loading,
         packs: state.cards.packs,
+        socket: state.lobby.socket,
         restrictedLists: state.cards.restrictedList
     };
 }

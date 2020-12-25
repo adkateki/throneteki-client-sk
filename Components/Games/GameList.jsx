@@ -17,6 +17,7 @@ class GameList extends React.Component {
         if(game.needsPassword) {
             this.props.joinPasswordGame(game, 'Join');
         } else {
+            this.props.setCurrentEvent(this.props.currentEvent);
             this.props.socket.emit('joingame', game.id);
         }
     }
@@ -43,7 +44,7 @@ class GameList extends React.Component {
     }
 
     canJoin(game) {
-        if(this.props.currentGame || game.started || game.full || game.winner) {
+        if(this.props.currentGame || game.started || game.full || (game.winner && game.isReported)) {
             return false;
         }
 
@@ -106,14 +107,17 @@ GameList.propTypes = {
     joinPasswordGame: PropTypes.func,
     showNodes: PropTypes.bool,
     socket: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
+    currentEvent: PropTypes.object,
+    setCurrentEvent: PropTypes.func
 };
 
 function mapStateToProps(state) {
     return {
         currentGame: state.lobby.currentGame,
         socket: state.lobby.socket,
-        user: state.account.user
+        user: state.account.user,
+        currentEvent: state.events.currentEvent
     };
 }
 

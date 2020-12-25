@@ -42,7 +42,7 @@ class EditDeck extends React.Component {
     }
 
     onEditDeck(deck) {
-        this.props.saveDeck(deck);
+        this.props.saveDeck(deck, this.props.currentEvent);
     }
 
     onDeckUpdated(deck) {
@@ -51,6 +51,10 @@ class EditDeck extends React.Component {
 
     render() {
         let content;
+        let deckEditorText='Deck Editor';
+        if(this.props.currentEvent){
+             deckEditorText=deckEditorText+" for \""+this.props.currentEvent.name+"\" event"
+        }
 
         if(this.props.apiLoading || !this.props.cards) {
             content = <div>Loading deck from the server...</div>;
@@ -63,7 +67,7 @@ class EditDeck extends React.Component {
                 <div>
                     <div className='col-sm-6'>
                         <Panel title='Deck Editor'>
-                            <DeckEditor onDeckSave={ this.onEditDeck } deck={ this.state.deck } onDeckUpdated={ this.onDeckUpdated } />
+                            <DeckEditor onDeckSave={ this.onEditDeck } deck={ this.state.deck } onDeckUpdated={ this.onDeckUpdated } currentEvent={this.props.currentEvent}/>
                         </Panel>
                     </div>
                     <div className='col-sm-6'>
@@ -87,6 +91,7 @@ EditDeck.propTypes = {
     banners: PropTypes.array,
     cards: PropTypes.object,
     currentRestrictedList: PropTypes.object,
+    currentEvent: PropTypes.object,
     deck: PropTypes.object,
     deckId: PropTypes.string,
     deckSaved: PropTypes.bool,
@@ -108,6 +113,7 @@ function mapStateToProps(state) {
         banners: state.cards.banners,
         cards: state.cards.cards,
         currentRestrictedList: state.cards.currentRestrictedList,
+        currentEvent: state.events.currentEvent,
         deck: state.cards.selectedDeck,
         deckSaved: state.cards.deckSaved,
         factions: state.cards.factions,

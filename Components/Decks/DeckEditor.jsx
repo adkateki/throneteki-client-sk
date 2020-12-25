@@ -369,6 +369,14 @@ class DeckEditor extends React.Component {
 
         let banners = this.getBannerList();
         const cardsExcludingAgendas = Object.values(this.props.cards).filter(card => !this.props.agendas[card.code]);
+        let restrictedListArray = this.props.restrictedList;
+        if(this.props.currentEvent){
+            if(this.props.currentEvent.defaultRestrictedList){
+               restrictedListArray = this.props.restrictedList.filter( rl => rl.name == this.props.currentEvent.defaultRestrictedList);
+            }else{
+               restrictedListArray = this.props.restrictedList.filter( rl => rl.name == this.props.currentEvent.name);
+            }
+        }
 
         return (
             <div>
@@ -382,15 +390,16 @@ class DeckEditor extends React.Component {
                         <button ref='submit' type='button' className='btn btn-primary' onClick={ this.onCancelClick.bind(this) }>Cancel</button>
                     </div>
                 </div>
-
-                <div className='form-group'>
-                    <RestrictedListDropdown
-                        currentRestrictedList={ this.props.currentRestrictedList }
-                        onChange={ (restrictedList) => this.triggerDeckUpdated(restrictedList) }
-                        restrictedLists={ this.props.restrictedList }
-                        setCurrentRestrictedList={ this.props.setCurrentRestrictedList } />
-                </div>
-
+			<div className='form-group'>
+			    <RestrictedListDropdown
+				currentRestrictedList={ this.props.currentRestrictedList }
+				onChange={ (restrictedList) => this.triggerDeckUpdated(restrictedList) }
+				restrictedLists={ restrictedListArray }
+				setCurrentRestrictedList={ this.props.setCurrentRestrictedList } />
+			</div>
+              
+                   
+                
                 <h4>Either type the cards manually into the box below, add the cards one by one using the card box and autocomplete or for best results, copy and paste a decklist from <a href='http://thronesdb.com' target='_blank'>Thrones DB</a> into the box below.</h4>
                 <form className='form form-horizontal'>
                     <Input name='deckName' label='Deck Name' labelClass='col-sm-3' fieldClass='col-sm-9' placeholder='Deck Name'
@@ -460,7 +469,8 @@ DeckEditor.propTypes = {
     packs: PropTypes.array,
     restrictedList: PropTypes.array,
     setCurrentRestrictedList: PropTypes.func,
-    updateDeck: PropTypes.func
+    updateDeck: PropTypes.func,
+    currentEvent: PropTypes.object
 };
 
 function mapStateToProps(state) {
