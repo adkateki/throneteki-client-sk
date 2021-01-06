@@ -270,7 +270,7 @@ class Profile extends React.Component {
 			      <div className="form-group">
                                     <label className="col-sm-2">Title Name</label>
                                     <div className="col-sm-7">
-    	                              { this.props.titles.length > 0 ? <Typeahead labelKey={ 'label' } options={ this.props.titles } dropup onChange={ this.onSelectedTitle.bind(this) } defaultSelected={selectedTitle ? [selectedTitle] : [this.props.titles[this.props.titles.length - 1]]} filterBy={(option, props) => {
+    	                              { this.props.titles && this.props.titles.length > 0 ? <Typeahead labelKey={ 'label' } options={ this.props.titles } dropup onChange={ this.onSelectedTitle.bind(this) } defaultSelected={selectedTitle ? [selectedTitle] : [this.props.titles[this.props.titles.length - 1]]} filterBy={(option, props) => {
                                       if (props.selected.length) {
 					      // Display all the options if there's a selection.
 					      return true;

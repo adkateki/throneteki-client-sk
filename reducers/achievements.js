@@ -22,7 +22,7 @@ function getTitles(userAchievements, state){
     }
 //    console.log(state.achievements);
     return state.achievements.map(achievement => 
-                          userAchievements[achievement.code] && userAchievements[achievement.code].progress > achievement.target ? achievement.title : null
+                          userAchievements[achievement.code] && userAchievements[achievement.code].progress >= achievement.target ? achievement.title : null
                      ).filter(title => title != null);;
 }
 

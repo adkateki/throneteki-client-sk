@@ -52,8 +52,13 @@ export class PlayerStats extends React.Component {
                 <Avatar username={ this.props.user ? this.props.user.username : undefined } />
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
+        let selectedTitle=null;
+        if(this.props.titles && this.props.titles.length > 0){
+            this.props.selectedTitle ? selectedTitle = this.props.selectedTitle : selectedTitle = this.props.titles[0];
+        }
+        
         var playerSelectedTitle = (
-            <div className='player-title'> <b>{ "\""+this.props.selectedTitle+"\"" }</b>
+            <div className='player-title'> <b>{ "\""+selectedTitle+"\"" }</b>
             </div>);
              
         let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
@@ -61,7 +66,7 @@ export class PlayerStats extends React.Component {
         return (
             <div className='panel player-stats'>
                 { playerAvatar }
-		{ this.props.selectedTitle && playerSelectedTitle }
+		{ selectedTitle && playerSelectedTitle }
                 { this.getButton('gold', 'Gold') }
                 { this.getButton('totalPower', 'Power', 'power') }
                 { this.getButton('reserve', 'Reserve') }
