@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Checkbox from '../Form/Checkbox';
 import Panel from '../Site/Panel';
+import TitleLookup from './TitleLookup';
 
 class GameConfiguration extends React.Component {
     constructor(props) {
@@ -79,6 +80,13 @@ class GameConfiguration extends React.Component {
         return (
             <div>
                 <form className='form form-horizontal'>
+                    <Panel title='Title to show'>
+                      <div className="row">
+                        <div className='col-sm-6'>
+                            <TitleLookup titles={this.props.titles} onSelectedTitle={this.props.onSelectedTitle} selectedTitle={this.props.selectedTitle}/>
+                        </div>
+                      </div>
+                    </Panel>
                     <Panel title='Action window defaults'>
                         <div className='form-group'>
                             { windows }
@@ -117,7 +125,10 @@ GameConfiguration.propTypes = {
     onPromptDupesToggle: PropTypes.func,
     onTimerSettingToggle: PropTypes.func,
     promptDupes: PropTypes.bool,
-    timerSettings: PropTypes.object
+    timerSettings: PropTypes.object,
+    titles: PropTypes.array,
+    onSelectedTitle: PropTypes.func,
+    selectedTitle: PropTypes.string
 };
 
 export default GameConfiguration;

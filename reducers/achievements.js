@@ -16,6 +16,16 @@ function processAchievements(achievements, state) {
     return achievements.map(achievement => processAchievement(achievement, state));
 }
 
+function getTitles(userAchievements, state){
+    if(!userAchievements){
+       return;
+    }
+//    console.log(state.achievements);
+    return state.achievements.map(achievement => 
+                          userAchievements[achievement.code] && userAchievements[achievement.code].progress > achievement.target ? achievement.title : null
+                     ).filter(title => title != null);;
+}
+
 function processAchievement(achievement, state) {
     if(!state.userAchievements || !achievement ) {
         return Object.assign({ status: {} }, achievement);
@@ -54,17 +64,19 @@ export default function(state = { achievements: []}, action) {
             return newState;
         case 'SELECT_ACHIEVEMENT':
             return Object.assign({}, state, {
-                selectedAchievement: action.achievement,
+                selectedAchievement: action.achievement
             });
         case 'RECEIVE_USERACHIEVEMENTS':
             newState = Object.assign({}, state, {
-		userAchievements: action.response.userAchievements
+		userAchievements: action.response.userAchievements,
+                titles: getTitles(action.response.userAchievements, state)
             });
             return newState;
         case 'CLEAR_USERACHIEVEMENTS':
             newState = Object.assign({}, state, {
             });
             delete newState['userAchievements'];
+            delete newState['titles'];
             return newState;
         default:
             return state;

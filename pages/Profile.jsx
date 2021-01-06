@@ -12,6 +12,8 @@ import CardSizeOption from '../Components/Profile/CardSizeOption';
 import GameBackgroundOption from '../Components/Profile/GameBackgroundOption';
 import * as actions from '../actions';
 import Avatar from '../Components/Site/Avatar';
+import TitleLookup from '../Components/GameBoard/TitleLookup';
+import { Typeahead } from 'react-bootstrap-typeahead';
 
 class Profile extends React.Component {
     constructor(props) {
@@ -102,7 +104,8 @@ class Profile extends React.Component {
             timerSettings: props.user.settings.timerSettings,
             keywordSettings: props.user.settings.keywordSettings,
             selectedBackground: props.user.settings.background,
-            selectedCardSize: props.user.settings.cardSize
+            selectedCardSize: props.user.settings.cardSize,
+            selectedTitle: props.user.settings.selectedTitle
         });
     }
 
@@ -144,6 +147,21 @@ class Profile extends React.Component {
         this.setState(newState);
     }
 
+    onSelectedTitle(selectedTitle){
+        var newState = {};
+        if(!selectedTitle[0] || selectedTitle[0]===''){
+           return;
+        }
+        newState.selectedTitle = selectedTitle[0];
+        this.setState(newState);
+    }
+ 
+    showAllOnClick(option, props){
+        if (props.selected.length){
+           return true;
+        }
+        return option.toLowerCase().indexOf(props.text.toLoweCase()) !== -1;
+    }
     onSaveClick() {
         this.setState({ successMessage: undefined });
 
@@ -160,7 +178,8 @@ class Profile extends React.Component {
                 keywordSettings: this.state.keywordSettings,
                 timerSettings: this.state.timerSettings,
                 background: this.state.selectedBackground,
-                cardSize: this.state.selectedCardSize
+                cardSize: this.state.selectedCardSize,
+                selectedTitle: this.state.selectedTitle
             }
         });
     }
@@ -204,6 +223,8 @@ class Profile extends React.Component {
     isPatreonLinked() {
         return ['linked', 'pledged'].includes(this.props.user.patreon);
     }
+  
+   
 
     render() {
         if(!this.props.user || !this.state.promptedActionWindows) {
@@ -229,6 +250,7 @@ class Profile extends React.Component {
 
         let initialValues = { email: this.props.user.email };
         let callbackUrl = process.env.NODE_ENV === 'production' ? 'https://theironthrone.net/patreon' : 'http://localhost:8080/patreon';
+        let selectedTitle = this.props.user.settings.selectedTitle;
 
         return (
             <div className='col-sm-8 col-sm-offset-2 profile full-height'>
@@ -244,6 +266,22 @@ class Profile extends React.Component {
                         { !this.isPatreonLinked() && <a className='btn btn-default col-sm-offset-1 col-sm-3' href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=317bxGpXD7sAOlyFKp6D-LOBRX731lLK-2YYQSFfBmJCrVSiJI77eUgRoLoN2KoI&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ {height:'21px'} } />&nbsp;Link Patreon account</a> }
                         { this.isPatreonLinked() && <button type='button' className='btn btn-default col-sm-offset-1 col-sm-3' onClick={ this.onUnlinkClick }>Unlink Patreon account</button> }
                         <div className='col-sm-12 profile-inner'>
+			    <Panel title='Title to show'>
+			      <div className="form-group">
+                                    <label className="col-sm-2">Title Name</label>
+                                    <div className="col-sm-7">
+    	                              { this.props.titles.length > 0 ? <Typeahead labelKey={ 'label' } options={ this.props.titles } dropup onChange={ this.onSelectedTitle.bind(this) } defaultSelected={selectedTitle ? [selectedTitle] : [this.props.titles[this.props.titles.length - 1]]} filterBy={(option, props) => {
+                                      if (props.selected.length) {
+					      // Display all the options if there's a selection.
+					      return true;
+					    }
+					    // Otherwise filter on some criteria.
+					    return option.toLowerCase().indexOf(props.text.toLowerCase()) !== -1;
+                              }
+                           } /> : <div>You have no titles</div> }
+                                    </div>
+			      </div>
+			    </Panel>
                             <Panel title='Action window defaults'>
                                 <p className='help-block small'>If an option is selected here, you will always be prompted if you want to take an action in that window.  If an option is not selected, you will receive no prompts for that window.  For some windows (e.g. dominance) this could mean the whole window is skipped.</p>
                                 <div className='form-group'>
@@ -335,7 +373,8 @@ Profile.propTypes = {
     saveProfile: PropTypes.func,
     socket: PropTypes.object,
     updateAvatar: PropTypes.func,
-    user: PropTypes.object
+    user: PropTypes.object,
+    titles: PropTypes.array
 };
 
 function mapStateToProps(state) {
@@ -343,7 +382,8 @@ function mapStateToProps(state) {
         apiState: state.api.SAVE_PROFILE,
         profileSaved: state.user.profileSaved,
         socket: state.lobby.socket,
-        user: state.account.user
+        user: state.account.user,
+        titles: state.achievements.titles
     };
 }
 

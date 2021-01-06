@@ -34,7 +34,7 @@ class TypeaheadLookup extends React.Component {
     }
 }
 
-TypeaheadLookup.displayName = 'TraitNameLookup';
+TypeaheadLookup.displayName = 'TypeAheadLookup';
 TypeaheadLookup.propTypes = {
     onValueSelected: PropTypes.func,
     values: PropTypes.array

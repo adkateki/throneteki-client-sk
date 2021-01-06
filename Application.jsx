@@ -44,6 +44,13 @@ class Application extends React.Component {
         this.props.loadPacks();
         this.props.loadFactions();
         this.props.loadRestrictedList();
+        this.props.loadAchievements();
+        if(this.props.user) {
+            this.props.loadUserAchievements();
+
+       }else{
+            this.props.clearUserAchievements(this.props.userAchievements);
+       }
 
         $(document).ajaxError((event, xhr) => {
             if(xhr.status === 403) {
@@ -58,6 +65,12 @@ class Application extends React.Component {
         if(!this.props.currentGame) {
             this.props.setContextMenu([]);
         }
+        if(this.props.user) {
+            this.props.loadUserAchievements();
+
+       }else{
+            this.props.clearUserAchievements(this.props.userAchievements);
+       }
     }
 
     render() {

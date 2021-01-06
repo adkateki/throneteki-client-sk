@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Avatar from '../Site/Avatar';
-
+import TitleLookup from './TitleLookup';
 export class PlayerStats extends React.Component {
     constructor() {
         super();
@@ -52,13 +52,16 @@ export class PlayerStats extends React.Component {
                 <Avatar username={ this.props.user ? this.props.user.username : undefined } />
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
-
+        var playerSelectedTitle = (
+            <div className='player-title'> <b>{ "\""+this.props.selectedTitle+"\"" }</b>
+            </div>);
+             
         let muteClass = this.props.muteSpectators ? 'glyphicon-eye-close' : 'glyphicon-eye-open';
 
         return (
             <div className='panel player-stats'>
                 { playerAvatar }
-
+		{ this.props.selectedTitle && playerSelectedTitle }
                 { this.getButton('gold', 'Gold') }
                 { this.getButton('totalPower', 'Power', 'power') }
                 { this.getButton('reserve', 'Reserve') }
@@ -103,7 +106,10 @@ PlayerStats.propTypes = {
     showControls: PropTypes.bool,
     showMessages: PropTypes.bool,
     stats: PropTypes.object,
-    user: PropTypes.object
+    titles: PropTypes.array,
+    titlesOpponent: PropTypes.array,
+    user: PropTypes.object,
+    selectedTitle: PropTypes.string
 };
 
 export default PlayerStats;

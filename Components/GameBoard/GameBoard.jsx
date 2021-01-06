@@ -318,6 +318,13 @@ export class GameBoard extends React.Component {
         $('#settings-modal').modal('show');
     }
 
+    onSelectedTitle(selectedTitle){
+        if(!selectedTitle[0] || selectedTitle[0]===''){
+            return;
+        }
+        this.props.sendGameMessage('changeTitle', selectedTitle[0]);
+    }
+
     onMessagesClick() {
         const showState = !this.state.showMessages;
 
@@ -487,6 +494,7 @@ export class GameBoard extends React.Component {
         let boardClass = classNames('game-board', {
             'select-cursor': thisPlayer && thisPlayer.selectCard
         });
+        let thisPlayerTitles = this.props.titles ? this.props.titles.reverse() : null;
 
         return (
             <div className={ boardClass }>
@@ -499,10 +507,13 @@ export class GameBoard extends React.Component {
                     onTimerSettingToggle={ this.onTimerSettingToggle.bind(this) }
                     promptDupes={ thisPlayer.promptDupes }
                     promptedActionWindows={ thisPlayer.promptedActionWindows }
-                    timerSettings={ thisPlayer.timerSettings } />
+                    timerSettings={ thisPlayer.timerSettings } 
+                    titles={ thisPlayerTitles }
+                    onSelectedTitle={ this.onSelectedTitle.bind(this)}
+                    selectedTitle={ this.props.user.settings.selectedTitle }/>
                 <div className='player-stats-row'>
                     <PlayerStats stats={ otherPlayer.stats }
-                        user={ otherPlayer.user } firstPlayer={ otherPlayer.firstPlayer } />
+                        user={ otherPlayer.user } firstPlayer={ otherPlayer.firstPlayer } selectedTitle={ otherPlayer.selectedTitle }/>
                 </div>
                 <div className='main-window'>
                     { this.renderBoard(thisPlayer, otherPlayer) }
@@ -523,10 +534,10 @@ export class GameBoard extends React.Component {
                     }
                 </div>
                 <div className='player-stats-row'>
-                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user }
+                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user } selectedTitle={ thisPlayer.selectedTitle}
                         firstPlayer={ thisPlayer.firstPlayer } onSettingsClick={ this.onSettingsClick } showMessages
                         onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } muteSpectators={ this.props.currentGame.muteSpectators } 
-                        onMuteClick={ this.onMuteClick }/>
+                        onMuteClick={ this.onMuteClick } titles={ thisPlayer.titles }/>
                 </div>
             </div >);
     }
@@ -553,7 +564,8 @@ GameBoard.propTypes = {
     timerLimit: PropTypes.number,
     timerStartTime: PropTypes.instanceOf(Date),
     user: PropTypes.object,
-    zoomCard: PropTypes.func
+    zoomCard: PropTypes.func,
+    titles: PropTypes.array
 };
 
 function mapStateToProps(state) {
@@ -568,7 +580,8 @@ function mapStateToProps(state) {
         socket: state.lobby.socket,
         timerLimit: state.prompt.timerLimit,
         timerStartTime: state.prompt.timerStartTime,
-        user: state.account.user
+        user: state.account.user,
+        titles: state.achievements.titles
     };
 }
 

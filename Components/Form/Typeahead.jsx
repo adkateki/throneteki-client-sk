@@ -8,6 +8,7 @@ class Input extends React.Component {
     }
 
     render() {
+        console.log("typeahead form "+this.props.options);
         const label = this.props.label ? <label htmlFor={ this.props.name } className={ this.props.labelClass + ' control-label' }>{ this.props.label }</label> : null;
         const control = (
             <div>
