@@ -52,11 +52,8 @@ export class PlayerStats extends React.Component {
                 <Avatar username={ this.props.user ? this.props.user.username : undefined } />
                 <b>{ this.props.user ? this.props.user.username : 'Noone' }</b>
             </div>);
-        let selectedTitle=null;
-        if(this.props.titles && this.props.titles.length > 0){
-            this.props.selectedTitle ? selectedTitle = this.props.selectedTitle : selectedTitle = this.props.titles[0];
-        }
-        
+        let selectedTitle= this.props.selectedTitle;
+       
         var playerSelectedTitle = (
             <div className='player-title'> <b>{ "\""+selectedTitle+"\"" }</b>
             </div>);

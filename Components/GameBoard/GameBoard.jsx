@@ -494,7 +494,12 @@ export class GameBoard extends React.Component {
         let boardClass = classNames('game-board', {
             'select-cursor': thisPlayer && thisPlayer.selectCard
         });
-        let thisPlayerTitles = this.props.titles ? this.props.titles.reverse() : null;
+        //let thisPlayerTitles = this.props.titles && this.props.titles.length > 0 ? this.props.titles.reverse() : null;
+        let thisPlayerSelectedTitle = thisPlayer.selectedTitle;
+        //if(thisPlayerTitles && !thisPlayerSelectedTitle){
+          //  thisPlayerSelectedTitle = thisPlayerTitles[0];
+        //}
+        
 
         return (
             <div className={ boardClass }>
@@ -508,7 +513,7 @@ export class GameBoard extends React.Component {
                     promptDupes={ thisPlayer.promptDupes }
                     promptedActionWindows={ thisPlayer.promptedActionWindows }
                     timerSettings={ thisPlayer.timerSettings } 
-                    titles={ thisPlayerTitles }
+                    titles={ this.props.titles }
                     onSelectedTitle={ this.onSelectedTitle.bind(this)}
                     selectedTitle={ this.props.user.settings.selectedTitle }/>
                 <div className='player-stats-row'>
@@ -534,10 +539,10 @@ export class GameBoard extends React.Component {
                     }
                 </div>
                 <div className='player-stats-row'>
-                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user } selectedTitle={ thisPlayer.selectedTitle}
+                    <PlayerStats { ...boundActionCreators } stats={ thisPlayer.stats } showControls={ !this.state.spectating } user={ thisPlayer.user } selectedTitle={ thisPlayerSelectedTitle}
                         firstPlayer={ thisPlayer.firstPlayer } onSettingsClick={ this.onSettingsClick } showMessages
                         onMessagesClick={ this.onMessagesClick } numMessages={ this.state.newMessages } muteSpectators={ this.props.currentGame.muteSpectators } 
-                        onMuteClick={ this.onMuteClick } titles={ thisPlayer.titles }/>
+                        onMuteClick={ this.onMuteClick } titles={ this.props.titles }/>
                 </div>
             </div >);
     }

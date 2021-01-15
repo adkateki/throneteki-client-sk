@@ -25,7 +25,7 @@ class ViewDeck extends React.Component {
 
     render() {
         let { deck, cards } = this.props;
-        let showEdit = !this.props.currentEvent || (this.props.currentEvent.allowDeckEdition);
+        let showEdit = !this.props.currentEvent || (this.props.currentEvent._id == "none") || (this.props.currentEvent.allowDeckEdition);
         return (
             <div className='col-sm-7'>
                 <Panel title={ deck.name }>

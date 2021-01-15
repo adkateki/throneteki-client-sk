@@ -18,7 +18,7 @@ export class TitleLookup extends React.Component {
     render() {
         let selectedTitle = this.props.selectedTitle;
         return (
-    	       this.props.titles.length>0 ? <Typeahead labelKey={ '' } options={ this.props.titles } onChange={ this.props.onSelectedTitle } defaultSelected={selectedTitle ? [selectedTitle] : [this.props.titles[0]]} filterBy={(option, props) =>{
+    	       this.props.titles && this.props.titles.length>0 ? <Typeahead labelKey={ '' } options={ this.props.titles } onChange={ this.props.onSelectedTitle } defaultSelected={selectedTitle ? [selectedTitle] : [this.props.titles[0]]} filterBy={(option, props) =>{
                                       if (props.selected.length) {
 					      // Display all the options if there's a selection.
 					      return true;

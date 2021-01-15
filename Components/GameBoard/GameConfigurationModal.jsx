@@ -17,7 +17,7 @@ export class GameConfigurationModal extends React.Component {
                     onTimerSettingToggle={ this.props.onTimerSettingToggle }
                     onActionWindowToggle={ this.props.onPromptedActionWindowToggle }
                     onPromptDupesToggle={ this.props.onPromptDupesToggle }
-                    titles={ this.props.titles }
+                    titles={ this.props.titles && this.props.titles }
                     onSelectedTitle={ this.props.onSelectedTitle }
                     selectedTitle={ this.props.selectedTitle }
                 />
