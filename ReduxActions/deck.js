@@ -1,4 +1,4 @@
-import { formatDeckAsShortCards } from 'throneteki-deck-helper';
+import { formatDeckAsShortCards } from 'throneteki-deck-helper-sk';
 
 export function loadDecks(event) {
     let eventName = 'None';

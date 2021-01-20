@@ -1,4 +1,4 @@
-import { formatDeckAsFullCards } from 'throneteki-deck-helper';
+import { formatDeckAsFullCards } from 'throneteki-deck-helper-sk';
 
 import { sendGameMessage } from './socket';
 

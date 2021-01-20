@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { validateDeck } from 'throneteki-deck-helper';
+import { validateDeck } from 'throneteki-deck-helper-sk';
 
 import Input from '../Form/Input';
 import Select from '../Form/Select';
