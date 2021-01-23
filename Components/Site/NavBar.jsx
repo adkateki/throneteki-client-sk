@@ -159,7 +159,10 @@ class NavBar extends React.Component {
                     <div id='navbar' className='collapse navbar-collapse'>
                         <ul className='nav navbar-nav'>
                             { leftMenuToRender }
+                            <li>
                             <a href='https://skthrone.com' className='navbar-brand'> SK ThronesDB</a>
+                            </li>
+                            <a href='https://skthrone.ams3.digitaloceanspaces.com/CircuitoNacional.pdf' className='navbar-brand'> Retricted List</a>
                         </ul>
                         <ul className='nav navbar-nav navbar-right'>
                             { contextMenu }
