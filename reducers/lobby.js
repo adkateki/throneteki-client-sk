@@ -1,16 +1,15 @@
-
-let achievementMode = localStorage.getItem('achievementMode');
-if(achievementMode) {
-    achievementMode = JSON.parse(achievementMode);
-} else {
-    achievementMode = false;
-}
+//let achievementMode = localStorage.getItem('achievementMode');
+//if(achievementMode) {
+//    achievementMode = JSON.parse(achievementMode);
+//} else {
+//    achievementMode = false;
+//}
  
 const defaultState = {
     games: [],
     users: [],
     messages: [],
-    achievementMode: achievementMode
+    achievementMode: false
 };
 
 export default function(state = defaultState, action) {
@@ -97,7 +96,8 @@ export default function(state = defaultState, action) {
         case 'SET_ACHIEVEMENT_MODE':
             localStorage.setItem('achievementMode', JSON.stringify(action.achievementMode));
             return Object.assign({}, state, {
-                achievementMode: action.achievementMode
+                achievementMode: action.achievementMode,
+                achievementWarning: action.warning
             });
     }
 

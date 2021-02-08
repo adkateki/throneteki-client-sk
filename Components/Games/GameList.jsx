@@ -74,7 +74,7 @@ class GameList extends React.Component {
                     onRemoveGame={ this.removeGame.bind(this, game) }
                     onWatchGame={ this.watchGame.bind(this, game) }
                     isAdmin={ isAdmin } 
-                    achievementMode={ this.props.achievementMode }/>
+                    achievementMode={ this.props.achievementMode && this.props.user.achievementTries }/>
             ));
         }
 

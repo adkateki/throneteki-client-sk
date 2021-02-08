@@ -217,7 +217,7 @@ class GameLobby extends React.Component {
     onGetPatreonTriesClick(event) {
         event.preventDefault();
 
-        this.props.getPatreonTries();
+        this.props.updateTries();
     }
 
     onModalHidden(event) {
@@ -255,7 +255,7 @@ class GameLobby extends React.Component {
 
         this.setState({ filter: filter });
 
-        localStorage.setItem('gameFilter', JSON.stringify(filter));
+        //localStorage.setItem('gameFilter', JSON.stringify(filter));
     }
 
     onUnlinkClick() {
@@ -264,7 +264,11 @@ class GameLobby extends React.Component {
 
 
     onAchievementModeToggle(checked){
-        this.props.setAchievementMode(checked);
+        let warning=null;
+        if(checked && this.props.user && !this.props.user.achievementTries){
+            warning='You have no achievement tries';
+        }
+        this.props.setAchievementMode(checked, warning);
     //    this.setState({ achievementMode: checked });
     }
 
@@ -322,7 +326,7 @@ class GameLobby extends React.Component {
         let triesFeedback = this.props.apiSuccess === false ? 'testerror' : 'testsuccess';
         let callbackUrl = process.env.NODE_ENV === 'production' ? 'https://teki.skthrone.com/patreon' : 'http://sktest.megametateki.com:8080/patreon';
         let achiTries = (this.props.user && this.props.user.achievementTries) || 0;
-        let achievementClass = this.props.achievementMode ? "achievement-mode" : null;
+        let achievementClass = this.props.achievementMode && this.props.user && this.props.user.achievementTries ? "achievement-mode" : null;
         return (
             <div className='full-height'>
                 <div className='col-md-offset-2 col-md-8 full-height'>
@@ -333,7 +337,7 @@ class GameLobby extends React.Component {
                         { this.props.user && this.props.user.permissions.canManageEvents && <button className='btn btn-primary' onClick={ this.onDeleteEventGamesClick } disabled={ !!this.props.currentGame || !this.props.user }>Delete Event</button>}
                         <div className='col-xs-12 game-controls'>
                             <div className='col-xs-3 join-buttons'>
-                                <SwitchButton name='test' onChange={ this.onAchievementModeToggle.bind(this) } checked={ this.props.achievementMode } />
+                                <SwitchButton name='achievementmode' onChange={ this.onAchievementModeToggle.bind(this) } checked={ this.props.achievementMode } warning={ this.props.achievementWarning }/>
                                 <button className={'btn btn-primary '+achievementClass} onClick={ this.onNewGameClick } disabled={ !!this.props.currentGame || !this.props.user }>New Game</button>
                                 <button className='btn btn-primary' onClick={ this.onQuickJoinClick } disabled={ !!this.props.currentGame || !this.props.user }>Quick Join</button>                            
                             </div>
@@ -351,8 +355,9 @@ class GameLobby extends React.Component {
 					<div className='col-xs-3 achievement-tries'>Achievement tries: {(this.props.user) && achiTries} </div>
 					<div className='col-xs-4'><button className={'btn btn-primary '+achievementClass} onClick={ this.onGetPatreonTriesClick } disabled={ !!this.props.currentGame || !this.isPatreonLinked() || !this.patreonHasTries() }>{(this.props.user && this.props.user.patreonTries !== undefined) ? 'Get '+this.props.user.patreonTries+' Patreon tries' : 'Get Patreon Tries' }</button></div>
 
-                                        { !this.isPatreonLinked() && <a className={'btn btn-default col-xs-3 '+achievementClass} href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=_gSg9x8qMgjNmt4hhlOjGRkQXXGuBNmQbzJc9GlvCksmRXLggiTeKcNN_KfAZBO3&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ {height:'21px'} } />&nbsp;Link Your Patreon</a> }
+                                        { !this.isPatreonLinked() && <a className={'btn btn-default col-xs-3 '+achievementClass} href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=7YiiPdg-nnCzaeJobdypBhaw5ykUhBD_CuYgMglaGqAy_AeTOv2-zPqOpYFpkf_n&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ {height:'21px'} } />&nbsp;Link Your Patreon</a> }
                                         { this.isPatreonLinked() && <button type='button' className='btn btn-default col-xs-3' onClick={ this.onUnlinkClick }>Unlink Patreon account</button> }
+					<div className='col-xs-2 support-patreon'><a href="https://www.patreon.com/thethroneofcards">Support the Patreon</a> </div>
 
                                 </div>
                         </div>}
@@ -374,6 +379,7 @@ GameLobby.propTypes = {
     apiMessage: PropTypes.string,
     apiSuccess: PropTypes.bool,
     achievementMode: PropTypes.bool,
+    achievementWaring: PropTypes.string,
     bannerNotice: PropTypes.string,
     cancelNewGame: PropTypes.func,
     cancelNewEventGames: PropTypes.func,
@@ -382,6 +388,7 @@ GameLobby.propTypes = {
     currentGame: PropTypes.object,
     games: PropTypes.array,
     getPatreonTries: PropTypes.func,
+    updateTries: PropTypes.func,
     leaveGame: PropTypes.func,
     newGame: PropTypes.bool,
     newEventGames: PropTypes.bool,
@@ -398,6 +405,7 @@ GameLobby.propTypes = {
 function mapStateToProps(state) {
     return {
         achievementMode: state.lobby.achievementMode,
+        achievementWarning: state.lobby.achievementWarning,
         bannerNotice: state.lobby.notice,
         currentGame: state.lobby.currentGame,
         games: state.lobby.games,

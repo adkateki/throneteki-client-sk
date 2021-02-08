@@ -37,9 +37,29 @@ export function clearChatStatus() {
     };
 }
 
-export function setAchievementMode(booleanMode) {
+export function triesUpdating(){
     return {
-        type: 'SET_ACHIEVEMENT_MODE',
-        achievementMode: booleanMode
+        type: 'TRIES_UPDATING'
     };
 }
+
+export function setAchievementMode(booleanMode, message) {
+    return {
+        type: 'SET_ACHIEVEMENT_MODE',
+        achievementMode: booleanMode,
+        warning: message
+    };
+}
+
+export function updateTries(){
+    return (dispatch, getState) => {
+        let state = getState();
+
+        if(state.lobby.socket) {
+            state.lobby.socket.emit('updatetries');
+        }
+
+        return dispatch(triesUpdating());
+    };
+}
+
