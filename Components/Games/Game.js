@@ -18,13 +18,14 @@ function Game(props) {
 
             return row;
         });
+        let achievementClass = props.achievementMode ? "achievement-mode" : null;
 
         if(players.length === 1) {
             if(props.showJoinButton) {
                 players.push(
                     <div key={ players[0].name } className={ 'game-player-row other-player' }>
                         <div className='game-faction-row other-player'>
-                            <button className='btn btn-primary gamelist-button img-responsive' onClick={ props.onJoinGame }>Join</button>
+                            <button className={'btn btn-primary gamelist-button img-responsive '+achievementClass} onClick={ props.onJoinGame }>Join</button>
                         </div>
                     </div>);
             } else {
@@ -103,7 +104,8 @@ Game.propTypes = {
     onRemoveGame: PropTypes.func,
     onWatchGame: PropTypes.func,
     showJoinButton: PropTypes.bool,
-    showWatchButton: PropTypes.bool
+    showWatchButton: PropTypes.bool,
+    achievementMode: PropTypes.bool
 };
 
 export default Game;

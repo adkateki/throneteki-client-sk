@@ -249,7 +249,7 @@ class Profile extends React.Component {
         }
 
         let initialValues = { email: this.props.user.email };
-        let callbackUrl = process.env.NODE_ENV === 'production' ? 'https://theironthrone.net/patreon' : 'http://localhost:8080/patreon';
+        let callbackUrl = process.env.NODE_ENV === 'production' ? 'https://teki.skthrone.com/patreon' : 'http://sktest.megametateki.com:8080/patreon';
         let selectedTitle = this.props.user.settings.selectedTitle;
 
         return (
@@ -263,7 +263,7 @@ class Profile extends React.Component {
                             onChange={ e => this.setState({ enableGravatar: e.target.checked }) } checked={ this.state.enableGravatar } />
                         <div className='col-sm-3 text-center'>Current profile picture</div>
                         <button type='button' className='btn btn-default col-sm-offset-1 col-sm-3' onClick={ this.onUpdateAvatarClick }>Update avatar</button>
-                        { !this.isPatreonLinked() && <a className='btn btn-default col-sm-offset-1 col-sm-3' href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=317bxGpXD7sAOlyFKp6D-LOBRX731lLK-2YYQSFfBmJCrVSiJI77eUgRoLoN2KoI&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ {height:'21px'} } />&nbsp;Link Patreon account</a> }
+                        { !this.isPatreonLinked() && <a className='btn btn-default col-sm-offset-1 col-sm-3' href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=_gSg9x8qMgjNmt4hhlOjGRkQXXGuBNmQbzJc9GlvCksmRXLggiTeKcNN_KfAZBO3&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ {height:'21px'} } />&nbsp;Link Patreon account</a> }
                         { this.isPatreonLinked() && <button type='button' className='btn btn-default col-sm-offset-1 col-sm-3' onClick={ this.onUnlinkClick }>Unlink Patreon account</button> }
                         <div className='col-sm-12 profile-inner'>
 			    <Panel title='Title to show'>

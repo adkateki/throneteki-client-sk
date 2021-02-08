@@ -27,7 +27,7 @@ class Patreon extends React.Component {
 
             setTimeout(() => {
                 this.props.clearLinkStatus();
-                this.props.navigate('/profile');
+                this.props.navigate('/play');
             }, 5000);
         }
     }

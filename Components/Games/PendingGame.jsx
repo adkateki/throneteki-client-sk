@@ -118,6 +118,7 @@ class PendingGame extends React.Component {
         let deck = null;
         let selectLink = null;
         let status = null;
+        let achievementStatus = null;
 
         if(player && player.deck && player.deck.selected) {
             if(playerIsMe) {
@@ -130,10 +131,13 @@ class PendingGame extends React.Component {
         } else if(player && playerIsMe) {
             selectLink = <span className='card-link' onClick={ this.onSelectDeckClick }>Select deck...</span>;
         }
+        if( player.achievementMode ){
+            achievementStatus='Achievements enabled';
+        } 
 
         return (
             <div className='player-row' key={ player.name }>
-                <Avatar username={ player.name } /><span>{ player.name }</span>{ deck } { status } { selectLink }
+                <Avatar username={ player.name } /><span>{ player.name }</span>{ deck } { status } { selectLink } <span className='achievement-enabled'>{achievementStatus}</span>
             </div>);
     }
 
@@ -141,6 +145,8 @@ class PendingGame extends React.Component {
         if(this.props.connecting) {
             return 'Connecting to game server: ' + this.props.host;
         }
+        let gameMode = 'Achievements';
+        let classGameMode = 'achievement-enabled';
 
         if(this.state.waiting) {
             return 'Waiting for lobby server...';
@@ -156,11 +162,19 @@ class PendingGame extends React.Component {
             return 'Waiting for players to select decks';
         }
 
+        if(!Object.values(this.props.currentGame.players).every(player => {
+            return !!player.achievementMode;
+        })) {
+            gameMode='Normal';
+            classGameMode=null;
+        }
+        
+        let gameReadyMessage=gameMode+" Game Ready to begin";
         if(this.props.currentGame.owner === this.props.user.username) {
-            return 'Ready to begin, click start to begin the game';
+            return <span className={classGameMode}>{gameReadyMessage}, click start to begin the game. Both players will spend 1 try.</span>;
         }
 
-        return 'Ready to begin, waiting for opponent to start the game';
+        return <span className={classGameMode}>{gameReadyMessage}, waiting for opponent to start the game. Both players will spend 1 try.</span>;
     }
 
     onLeaveClick(event) {

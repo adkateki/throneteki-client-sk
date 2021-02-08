@@ -19,7 +19,7 @@ class PasswordGame extends React.Component {
         event.preventDefault();
 
         if(this.props.passwordJoinType === 'Join') {
-            this.props.socket.emit('joingame', this.props.passwordGame.id, this.state.password);
+            this.props.socket.emit('joingame', this.props.passwordGame.id, this.props.achievementMode, this.state.password);
         } else if(this.props.passwordJoinType === 'Watch') {
             this.props.socket.emit('watchgame', this.props.passwordGame.id, this.state.password);
         }

@@ -170,8 +170,22 @@ export function unlinkPatreon() {
     };
 }
 
+
+export function getPatreonTries() {
+    return {
+        types: ['ACCOUNT_TRIES_REQUEST', 'ACCOUNT_TRIES_RESPONSE'],
+        shouldCallAPI: () => true,
+        APIParams: {
+            url: '/api/account/getPatreonTries',
+            type: 'POST',
+        }
+    };
+}
+
 export function clearLinkStatus() {
     return {
         type: 'CLEAR_LINK_STATUS'
     };
 }
+
+

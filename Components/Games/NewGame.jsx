@@ -162,7 +162,8 @@ class NewGame extends React.Component {
             gameTimeLimit: this.state.gameTimeLimit,
             muteSpectators: this.state.muteSpectators,
             useChessClocks: this.state.useChessClocks,
-            chessClockTimeLimit: this.state.chessClockTimeLimit
+            chessClockTimeLimit: this.state.chessClockTimeLimit,
+            achievementMode: this.props.achievementMode
         });
     }
 
@@ -280,6 +281,10 @@ class NewGame extends React.Component {
                         <input type='radio' onChange={ this.onRadioChange.bind(this, 'competitive') } checked={ this.isGameTypeSelected('competitive') } disabled={ this.state.optionsLocked } />
                         Competitive
                     </label>
+                    <label className='radio-inline'>
+                        <input type='radio' onChange={ this.onRadioChange.bind(this, 'achievement') } checked={ this.isGameTypeSelected('achievement') } disabled={ this.state.optionsLocked } />
+                        Competitive
+                    </label>
                 </div>
             </div>);
     }
@@ -365,7 +370,8 @@ NewGame.propTypes = {
     loadEvents: PropTypes.func,
     quickJoin: PropTypes.bool,
     restrictedLists: PropTypes.array,
-    socket: PropTypes.object
+    socket: PropTypes.object,
+    achievementMode: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -374,6 +380,7 @@ function mapStateToProps(state) {
         events: state.events.events,
         restrictedLists: state.cards.restrictedList,
         socket: state.lobby.socket,
+        achievementMode: state.lobby.achievementMode
     };
 }
 

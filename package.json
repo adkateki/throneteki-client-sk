@@ -80,7 +80,8 @@
     "webpack": "^4.44.2",
     "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.25.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "react-switch": "^6.0.0"
   },
   "dependencies": {
     "@babel/core": "^7.11.6",
@@ -107,6 +108,7 @@
     "regenerator-runtime": "^0.13.3",
     "throneteki-deck-helper-sk": "^1.0.2",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-middleware": "^3.7.0"
+    "webpack-dev-middleware": "^3.7.0",
+    "react-switch": "^6.0.0"
   }
 }

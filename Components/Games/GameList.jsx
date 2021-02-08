@@ -18,7 +18,7 @@ class GameList extends React.Component {
             this.props.joinPasswordGame(game, 'Join');
         } else {
             this.props.setCurrentEvent(this.props.currentEvent);
-            this.props.socket.emit('joingame', game.id);
+            this.props.socket.emit('joingame', game.id, this.props.achievementMode);
         }
     }
 
@@ -73,7 +73,8 @@ class GameList extends React.Component {
                     onJoinGame={ this.joinGame.bind(this, game) }
                     onRemoveGame={ this.removeGame.bind(this, game) }
                     onWatchGame={ this.watchGame.bind(this, game) }
-                    isAdmin={ isAdmin } />
+                    isAdmin={ isAdmin } 
+                    achievementMode={ this.props.achievementMode }/>
             ));
         }
 
@@ -109,7 +110,8 @@ GameList.propTypes = {
     socket: PropTypes.object,
     user: PropTypes.object,
     currentEvent: PropTypes.object,
-    setCurrentEvent: PropTypes.func
+    setCurrentEvent: PropTypes.func,
+    achievementMode: PropTypes.bool
 };
 
 function mapStateToProps(state) {
@@ -117,7 +119,8 @@ function mapStateToProps(state) {
         currentGame: state.lobby.currentGame,
         socket: state.lobby.socket,
         user: state.account.user,
-        currentEvent: state.events.currentEvent
+        currentEvent: state.events.currentEvent,
+        achievementMode: state.lobby.achievementMode
     };
 }
 

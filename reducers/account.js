@@ -50,7 +50,12 @@ export default function(state = {}, action) {
             });
         case 'ACCOUNT_LINK_RESPONSE':
             return Object.assign({}, state, {
+                user: action.response.user,
                 accountLinked: true
+            });
+        case 'ACCOUNT_TRIES_RESPONSE':
+            return Object.assign({}, state, {
+                user: action.response.user
             });
         case 'CLEAR_LINK_STATUS':
             return Object.assign({}, state, {
@@ -67,6 +72,10 @@ export default function(state = {}, action) {
                 accountLinked: undefined,
                 user: user
             });    
+        case 'USER_RECEIVED':
+            return Object.assign({}, state, {
+                user: action.user
+            });
     }
 
     return state;

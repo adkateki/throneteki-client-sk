@@ -112,6 +112,14 @@ export function nodeStatusReceived(status) {
     };
 }
 
+
+export function userReceived(user) {
+    return {
+        type: 'USER_RECEIVED',
+        user: user
+    };
+}
+
 export function connectLobby() {
     return (dispatch, getState) => {
         let state = getState();
@@ -219,6 +227,10 @@ export function connectLobby() {
 
         socket.on('removemessage', messageId => {
             dispatch(lobbyMessageReceived('removemessage', messageId));
+        });
+
+        socket.on('updateuser', user => {
+            dispatch(userReceived(user));
         });
     };
 }

@@ -36,3 +36,10 @@ export function clearChatStatus() {
         type: 'CLEAR_CHAT_STATUS'
     };
 }
+
+export function setAchievementMode(booleanMode) {
+    return {
+        type: 'SET_ACHIEVEMENT_MODE',
+        achievementMode: booleanMode
+    };
+}
