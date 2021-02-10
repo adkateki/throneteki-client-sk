@@ -34,6 +34,8 @@ class Application extends React.Component {
                         this.props.setAuthTokens(token, parsedToken);
                         this.props.authenticate();
                     }
+                }else{
+                   this.props.connectLobby();
                 }
             } catch(error) {
                 this.setState({ cannotLoad: true });
@@ -58,16 +60,17 @@ class Application extends React.Component {
             }
         });
 
-        this.props.connectLobby();
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
+        if(!prevProps.user){
+          this.props.connectLobby();
+        }
         if(!this.props.currentGame) {
             this.props.setContextMenu([]);
         }
         if(this.props.user) {
             this.props.loadUserAchievements();
-
        }else{
             this.props.clearUserAchievements(this.props.userAchievements);
        }

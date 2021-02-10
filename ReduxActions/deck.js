@@ -63,7 +63,6 @@ export function deleteDeck(deck, event) {
         eventName = event.name;
         apiUrl = '/api/decks/events/'+eventName;
     }
-    console.log(apiUrl);
     return {
         types: ['DELETE_DECK', 'DECK_DELETED'],
         shouldCallAPI: () => true,

@@ -94,7 +94,6 @@ export default function(state = defaultState, action) {
                 lobbyError: false
             });
         case 'SET_ACHIEVEMENT_MODE':
-            localStorage.setItem('achievementMode', JSON.stringify(action.achievementMode));
             return Object.assign({}, state, {
                 achievementMode: action.achievementMode,
                 achievementWarning: action.warning
@@ -109,7 +108,6 @@ function handleGameState(action, state) {
         currentGame: action.args[0]
     });
     var username = action.args[1];
-
     var currentState = retState.currentGame;
     if(!currentState) {
         retState.newGame = false;

@@ -355,7 +355,7 @@ class GameLobby extends React.Component {
 					<div className='col-xs-3 achievement-tries'>Achievement tries: {(this.props.user) && achiTries} </div>
 					<div className='col-xs-4'><button className={'btn btn-primary '+achievementClass} onClick={ this.onGetPatreonTriesClick } disabled={ !!this.props.currentGame || !this.isPatreonLinked() || !this.patreonHasTries() }>{(this.props.user && this.props.user.patreonTries !== undefined) ? 'Get '+this.props.user.patreonTries+' Patreon tries' : 'Get Patreon Tries' }</button></div>
 
-                                        { !this.isPatreonLinked() && <a className={'btn btn-default col-xs-3 '+achievementClass} href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=7YiiPdg-nnCzaeJobdypBhaw5ykUhBD_CuYgMglaGqAy_AeTOv2-zPqOpYFpkf_n&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ {height:'21px'} } />&nbsp;Link Your Patreon</a> }
+                                        { !this.isPatreonLinked() && <a className={'btn btn-default col-xs-3 '+achievementClass} href={ `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=_gSg9x8qMgjNmt4hhlOjGRkQXXGuBNmQbzJc9GlvCksmRXLggiTeKcNN_KfAZBO3&redirect_uri=${callbackUrl}` }><img src='/img/Patreon_Mark_Coral.jpg' style={ {height:'21px'} } />&nbsp;Link Your Patreon</a> }
                                         { this.isPatreonLinked() && <button type='button' className='btn btn-default col-xs-3' onClick={ this.onUnlinkClick }>Unlink Patreon account</button> }
 					<div className='col-xs-2 support-patreon'><a href="https://www.patreon.com/thethroneofcards">Support the Patreon</a> </div>
 
