@@ -66,7 +66,7 @@ function Game(props) {
         <div className={ rowClass }>
             <div className={ `game-header-row ${game.gameType}` }>
                 <span className='game-type'>
-                    ({ game.gameType })
+                    ({game.achievementMode && 'Achievements'} { game.gameType })
                 </span>
                 <span className='game-title'>
                     <b>{ title }</b>

@@ -281,10 +281,6 @@ class NewGame extends React.Component {
                         <input type='radio' onChange={ this.onRadioChange.bind(this, 'competitive') } checked={ this.isGameTypeSelected('competitive') } disabled={ this.state.optionsLocked } />
                         Competitive
                     </label>
-                    <label className='radio-inline'>
-                        <input type='radio' onChange={ this.onRadioChange.bind(this, 'achievement') } checked={ this.isGameTypeSelected('achievement') } disabled={ this.state.optionsLocked } />
-                        Competitive
-                    </label>
                 </div>
             </div>);
     }

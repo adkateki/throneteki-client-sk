@@ -174,7 +174,7 @@ class PendingGame extends React.Component {
             return <span className={classGameMode}>{gameReadyMessage}, click start to begin the game. Both players will spend 1 try.</span>;
         }
 
-        return <span className={classGameMode}>{gameReadyMessage}, waiting for opponent to start the game. Both players will spend 1 try.</span>;
+        return <span className={classGameMode}>{gameReadyMessage}, waiting for opponent to start the game. { gameMode === 'Achievements' && 'Both players will spend 1 try.'}</span>;
     }
 
     onLeaveClick(event) {

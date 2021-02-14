@@ -162,7 +162,7 @@ class NavBar extends React.Component {
                             <li>
                             <a href='https://skthrone.com' className='navbar-brand'> SK ThronesDB</a>
                             </li>
-                            <a href='https://skthrone.ams3.digitaloceanspaces.com/CircuitoNacional.pdf' className='navbar-brand'> Retricted List</a>
+                            <a href='https://skthrone.ams3.digitaloceanspaces.com/CircuitoNacional.pdf' className='navbar-brand'> Restricted List</a>
                         </ul>
                         <ul className='nav navbar-nav navbar-right'>
                             { contextMenu }
